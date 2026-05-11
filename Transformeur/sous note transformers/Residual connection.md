@@ -1,0 +1,2 @@
+Residual connection ou également connue sous le skip connections, ils fonctionnent comme le nom s'applique. Ils prennent l'entrée et la sautent sur un bloc et la prennent au bloc suivant.
+![[Pasted image 20260428100846.webp]]

@@ -1,0 +1,1 @@
+Le FFN ajoute de la non-linéarité à travers ses fonctions d'activation (généralement ReLU), permettant au modèle d'apprendre des modèles et des transformations plus complexes que l'attention pure seule ne peut pas capter.

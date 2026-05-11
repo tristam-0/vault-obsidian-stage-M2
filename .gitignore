@@ -1,0 +1,15 @@
+# Obsidian temporaires
+.obsidian/workspace.json
+.obsidian/workspace-mobile.json
+.obsidian/workspace-layout.json
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Corbeille
+.trash/
+
+# Fichiers temporaires
+*.tmp
+*.temp

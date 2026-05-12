@@ -83,6 +83,24 @@
       "width": "",
       "height": "",
       "wrap": false
+    },
+    "03fc4f20a1c7ee8d1ab803f4e79698c0": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
+    },
+    "2d313d99353c4b2b27bd43ed2c041db1": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
+    },
+    "a71d6385a7481c3c3eb18290c8d83e86": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
     }
   },
   "DETR/Anchor DETR.md": {
@@ -105,6 +123,24 @@
       "wrap": false
     },
     "03fb438faa1cf46d01336653433a4cbe": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
+    },
+    "63a88d52c4db265ab6faaceaba0b1db9": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
+    },
+    "5dad611340cca9aa1bef7f80ed81235a": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
+    },
+    "c9a23edd3c50457548de8728d605f400": {
       "position": "center",
       "width": "",
       "height": "",
@@ -147,6 +183,12 @@
       "width": "",
       "height": "",
       "wrap": false
+    },
+    "58ce72646e4640ee4c6fb06a3a902876": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
     }
   },
   "Transformeur/transformer vision.md": {
@@ -163,6 +205,30 @@
       "wrap": false
     },
     "aa102412a416a19b009cc8aea47cd490": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
+    },
+    "a2a077367271088557d4fdc6bab17b31": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
+    },
+    "60857a7e8baa96ddcdf207f06d8f7888": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
+    },
+    "1dfd72b3bd5ed04b2b985bbc66493e81": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
+    },
+    "3af4cdbfa0738d09b3f779554011fe0e": {
       "position": "center",
       "width": "",
       "height": "",
@@ -451,6 +517,12 @@
       "width": "",
       "height": "",
       "wrap": false
+    },
+    "f096f898e32a5f8f248a120c75c7da9f": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
     }
   },
   "Transformeur/self-Attention variantes liste.md": {
@@ -489,6 +561,36 @@
       "width": "",
       "height": "",
       "wrap": false
+    },
+    "24d5e2d96e8933d2e23807e23466aa61": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
+    },
+    "1618fd976a653c16c9d6b5fb8d49431b": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
+    },
+    "8b880552b60e40ba577e19eaa9701bdf": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
+    },
+    "903b7e64f195e9d4cd80ff0b3f2bb73b": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
+    },
+    "32b8e88c07a3a4e59fc8c47638ee236a": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
     }
   },
   "Transformeur/Transformers base (NLP).md": {
@@ -505,6 +607,90 @@
       "wrap": false
     },
     "5a0857b151bf5087ecd23e0d00ddb6a9": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
+    },
+    "231827f6a8db9dae1e1bfa43911dfd5e": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
+    },
+    "8a3f2f729ba12c7ef58916b9d39303e2": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
+    },
+    "3a09f3a3c1263874cde81243654e4261": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
+    },
+    "d3d1fe12fae0581353d05ccae2356216": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
+    },
+    "ba53b4f2f0227215b1652571fd97927c": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
+    },
+    "ea24acadeeb4741f606991d183eef76c": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
+    },
+    "21b76edb7753267192a6fc23b59a57d5": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
+    },
+    "c39d3f40142d6c663b411c2b0c529f20": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
+    },
+    "656ab47b8fc7dd7dab61ec2292098fdd": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
+    },
+    "d6b1bda750b39226d3dc82fb6d3126cf": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
+    },
+    "324ef2fb8e0cf50f6590078454d693ab": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
+    },
+    "10f4c714d59a8c5c5ffef0b1237865eb": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
+    },
+    "b613d58d92ab0d1ee0f8b2dd783609ba": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
+    },
+    "f982be5aee51fbd6e1df2f8fded17249": {
       "position": "center",
       "width": "",
       "height": "",
@@ -529,30 +715,34 @@
       "width": "",
       "height": "",
       "wrap": false
+    },
+    "a82db59fe68050a28991ffcb02d1fa91": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
+    },
+    "0f55e54bffbdad47f0bd9e29baa396c8": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
+    },
+    "c62293b8774dd599243a832264af1dd4": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
+    },
+    "6e7480384e7271ffe22605c571502e1d": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
     }
   },
   "Deformable convolution.md": {
     "f415633d3ff19e87b6778cb39b67f50d": {
-      "position": "center",
-      "width": "",
-      "height": "",
-      "wrap": false
-    }
-  },
-  "RCDA.md": {
-    "8d3f4df5322ea260722eb08a58a42e73": {
-      "position": "center",
-      "width": "",
-      "height": "",
-      "wrap": false
-    },
-    "59d9b971854e77c492c6b335ff8835f3": {
-      "position": "center",
-      "width": "",
-      "height": "",
-      "wrap": false
-    },
-    "8e874681e9761d5c8f14c00548d14791": {
       "position": "center",
       "width": "",
       "height": "",
@@ -565,6 +755,12 @@
       "width": "",
       "height": "",
       "wrap": false
+    },
+    "2e4c08530cba37cc83c09f8322d873ee": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
     }
   },
   "pieces_jointes/Pasted image 20260427142600.webp": {
@@ -573,10 +769,22 @@
       "width": "",
       "height": "",
       "wrap": false
+    },
+    "862c6e3e7ee72b64adafe3a6cf78ed02": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
     }
   },
   "pieces_jointes/Pasted image 20260427150754.webp": {
     "5a28a03296ee2fbef54ef3eb40c91707": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
+    },
+    "3ac33b506145b5d426203aba0c2483df": {
       "position": "center",
       "width": "",
       "height": "",
@@ -601,6 +809,12 @@
       "width": "",
       "height": "",
       "wrap": false
+    },
+    "51d6412218e597a6cf47d47592850f12": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
     }
   },
   "pieces_jointes/Pasted image 20260427113533.webp": {
@@ -617,6 +831,12 @@
       "wrap": false
     },
     "283f7ac42681990d63915614026b4e56": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
+    },
+    "5de71cb875e7b3c09254bf82a3790ce8": {
       "position": "center",
       "width": "",
       "height": "",
@@ -675,10 +895,22 @@
       "width": "",
       "height": "",
       "wrap": false
+    },
+    "2815ffdfaf23dbd49f9b803021612c81": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
     }
   },
   "pieces_jointes/Pasted image 20260427152525.webp": {
     "2f6ceb44e8188a118d25a4f595af2455": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
+    },
+    "f606d03549b770d6805036477def9309": {
       "position": "center",
       "width": "",
       "height": "",
@@ -697,10 +929,316 @@
       "width": "",
       "height": "",
       "wrap": false
+    },
+    "2f3c00fd9b55f148dd6eac9f0ff9cae9": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
     }
   },
   "DETR/Deformable DETR 1.md": {
     "4ffae167d3fd441bf6ce5b3655802405": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
+    },
+    "11b4c5045a910301c01ad08cb268b65c": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
+    }
+  },
+  "Transformeur/pieces_jointes/Pasted image 20260427111205.webp": {
+    "fd0a32b795ee05f5719885261228b372": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
+    }
+  },
+  "Transformeur/pieces_jointes/Pasted image 20260427112717.webp": {
+    "b485c781fe341cfe1d4f4d5bada9ebb2": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
+    }
+  },
+  "Transformeur/pieces_jointes/Pasted image 20260429155655.webp": {
+    "6d18b5f24ad65091040f38c097691116": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
+    }
+  },
+  "Sans titre.base": {
+    "d5b72d191c4e62d71962a0e82a421147": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
+    }
+  },
+  "pieces_jointes/Pasted image 20260427152236.webp": {
+    "2a8c11ef23ccf69ed271f73cf3ce32ca": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
+    },
+    "994343fbf753f8fa54e71ae1720b5039": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
+    },
+    "479e53b5a8f44b1cb678ca366ae88aaf": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
+    }
+  },
+  "pieces_jointes/Pasted image 20260427152303.webp": {
+    "3d0341e2ccdaee5f4628acf61e9f64a4": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
+    },
+    "22b95980f21546bffd1b3b1dc6522ab3": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
+    }
+  },
+  "DETR/sous note/RCDA.md": {
+    "3a0a8d6fb24de6ca520d712b356f7d29": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
+    },
+    "42598e9e0b76106383062ed1b4f7de2f": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
+    },
+    "e41d6d5087ad40ab0f47905f69d220f8": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
+    },
+    "5eefb63ea884ec6042484d2e230a1be2": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
+    },
+    "eaf0d57d8c6e7ffc156a0d52660ea34a": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
+    },
+    "fa4b691c6dcec7fa629a8aa846d0eb8c": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
+    },
+    "a6c93e1b810d8c52102be6ca1f9d5285": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
+    },
+    "f58e994803a8ed4a238be3665256c87c": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
+    },
+    "cf6c644c1ae111ecb275489b52e1d705": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
+    },
+    "4bf8cf45463738fea8acdba0a26c6b92": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
+    },
+    "532ab00a706be1a961edd052cd551368": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
+    },
+    "a2cfa52cc39226788ee8db1f197356a2": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
+    },
+    "501a0af8d65fedb426aad2ce68150152": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
+    },
+    "8521b06aacc4dfaac8749c78459b1116": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
+    },
+    "9408f01e137a2c6f5c5cd6a0c66c28f7": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
+    },
+    "89a19a1a120bfecf1e818d069256abc7": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
+    },
+    "2a0419c98c69acd8f6ac7261c9e78b3c": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
+    },
+    "1efc38fe3247bd9ca12a2e1010154aa9": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
+    }
+  },
+  "DETR/pieces_jointes/Pasted image 20260507141729.png": {
+    "773ff60049294d4cc818c0cdb969de5a": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
+    },
+    "8f2cda64d503c5ab0ec450de60b14b7b": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
+    }
+  },
+  "DETR/pieces_jointes/Pasted image 20260507154136.png": {
+    "50502c594899262b0a233f4a5a5a6292": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
+    },
+    "4ee7af2e079e7c3f7c2262dc18fc1df0": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
+    }
+  },
+  "DETR/pieces_jointes/Pasted image 20260507141537.png": {
+    "27a16eaea0094506ec23f95b8a2b2d09": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
+    },
+    "ca12400f661d98e1f081af67fb8db6fc": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
+    }
+  },
+  "DETR/pieces_jointes/Pasted image 20260507110805.png": {
+    "4859566283a337c256c608e473358d0d": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
+    },
+    "5361bfeaa18b97ea8ff41fc7484972cf": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
+    }
+  },
+  "DETR/pieces_jointes/Pasted image 20260505104530.png": {
+    "107aa935c799de40b5e66c4df77c3c5d": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
+    },
+    "165bf28ca4da4ec41afd544a11d38ca2": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
+    }
+  },
+  "DETR/sous note/pieces_jointes/RCDA-1778509593651.webp": {
+    "682d4dff125672fa2577da82b8ef44e8": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
+    }
+  },
+  "DETR/sous note/pieces_jointes/RCDA-1778509540006.webp": {
+    "1f471d2d893004c15303e6171a6f3651": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
+    }
+  },
+  "DETR/sous note/pieces_jointes/RCDA-1778509200492.webp": {
+    "f0fae53a900c58c0a4a434106a03a037": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
+    }
+  },
+  "DETR/sous note/pieces_jointes/RCDA-1778507876440.webp": {
+    "59fc81d1fc7b2afc3627566d0ae9e6b7": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
+    }
+  },
+  "DETR/sous note/pieces_jointes/RCDA-1778507871206.webp": {
+    "abb434a554879f9b50f33508f44dcf75": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
+    }
+  },
+  "DETR/sous note/pieces_jointes/RCDA-1778507062709.webp": {
+    "7d344846caf8bf0a25627cb0687e1192": {
       "position": "center",
       "width": "",
       "height": "",

@@ -189,6 +189,30 @@
       "width": "",
       "height": "",
       "wrap": false
+    },
+    "0881b18205d7ef8f55a481853a473aad": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
+    },
+    "7cc026e52edf518b28c0dc085336d5b6": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
+    },
+    "bfeb5dc465a78f320fa4205ecfcaba8e": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
+    },
+    "03ffe50a6aa80da8eb72d2b70017722f": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
     }
   },
   "Transformeur/transformer vision.md": {
@@ -975,14 +999,6 @@
       "wrap": false
     }
   },
-  "Sans titre.base": {
-    "d5b72d191c4e62d71962a0e82a421147": {
-      "position": "center",
-      "width": "",
-      "height": "",
-      "wrap": false
-    }
-  },
   "pieces_jointes/Pasted image 20260427152236.webp": {
     "2a8c11ef23ccf69ed271f73cf3ce32ca": {
       "position": "center",
@@ -1018,31 +1034,7 @@
     }
   },
   "DETR/sous note/RCDA.md": {
-    "3a0a8d6fb24de6ca520d712b356f7d29": {
-      "position": "center",
-      "width": "",
-      "height": "",
-      "wrap": false
-    },
-    "42598e9e0b76106383062ed1b4f7de2f": {
-      "position": "center",
-      "width": "",
-      "height": "",
-      "wrap": false
-    },
-    "e41d6d5087ad40ab0f47905f69d220f8": {
-      "position": "center",
-      "width": "",
-      "height": "",
-      "wrap": false
-    },
     "5eefb63ea884ec6042484d2e230a1be2": {
-      "position": "center",
-      "width": "",
-      "height": "",
-      "wrap": false
-    },
-    "eaf0d57d8c6e7ffc156a0d52660ea34a": {
       "position": "center",
       "width": "",
       "height": "",
@@ -1050,77 +1042,23 @@
     },
     "fa4b691c6dcec7fa629a8aa846d0eb8c": {
       "position": "center",
-      "width": "",
-      "height": "",
+      "width": "462px",
+      "height": "312px",
       "wrap": false
     },
     "a6c93e1b810d8c52102be6ca1f9d5285": {
       "position": "center",
-      "width": "",
-      "height": "",
-      "wrap": false
-    },
-    "f58e994803a8ed4a238be3665256c87c": {
-      "position": "center",
-      "width": "",
-      "height": "",
-      "wrap": false
-    },
-    "cf6c644c1ae111ecb275489b52e1d705": {
-      "position": "center",
-      "width": "",
-      "height": "",
-      "wrap": false
-    },
-    "4bf8cf45463738fea8acdba0a26c6b92": {
-      "position": "center",
-      "width": "",
-      "height": "",
-      "wrap": false
-    },
-    "532ab00a706be1a961edd052cd551368": {
-      "position": "center",
-      "width": "",
-      "height": "",
-      "wrap": false
-    },
-    "a2cfa52cc39226788ee8db1f197356a2": {
-      "position": "center",
-      "width": "",
-      "height": "",
-      "wrap": false
-    },
-    "501a0af8d65fedb426aad2ce68150152": {
-      "position": "center",
-      "width": "",
-      "height": "",
-      "wrap": false
-    },
-    "8521b06aacc4dfaac8749c78459b1116": {
-      "position": "center",
-      "width": "",
-      "height": "",
-      "wrap": false
-    },
-    "9408f01e137a2c6f5c5cd6a0c66c28f7": {
-      "position": "center",
-      "width": "",
-      "height": "",
-      "wrap": false
-    },
-    "89a19a1a120bfecf1e818d069256abc7": {
-      "position": "center",
-      "width": "",
-      "height": "",
-      "wrap": false
-    },
-    "2a0419c98c69acd8f6ac7261c9e78b3c": {
-      "position": "center",
-      "width": "",
-      "height": "",
+      "width": "396px",
+      "height": "379px",
       "wrap": false
     },
     "1efc38fe3247bd9ca12a2e1010154aa9": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
+    },
+    "6004bc17f3da29a8c8d3243a2c6e18d7": {
       "position": "center",
       "width": "",
       "height": "",
@@ -1205,14 +1143,6 @@
       "wrap": false
     }
   },
-  "DETR/sous note/pieces_jointes/RCDA-1778509540006.webp": {
-    "1f471d2d893004c15303e6171a6f3651": {
-      "position": "center",
-      "width": "",
-      "height": "",
-      "wrap": false
-    }
-  },
   "DETR/sous note/pieces_jointes/RCDA-1778509200492.webp": {
     "f0fae53a900c58c0a4a434106a03a037": {
       "position": "center",
@@ -1223,14 +1153,6 @@
   },
   "DETR/sous note/pieces_jointes/RCDA-1778507876440.webp": {
     "59fc81d1fc7b2afc3627566d0ae9e6b7": {
-      "position": "center",
-      "width": "",
-      "height": "",
-      "wrap": false
-    }
-  },
-  "DETR/sous note/pieces_jointes/RCDA-1778507871206.webp": {
-    "abb434a554879f9b50f33508f44dcf75": {
       "position": "center",
       "width": "",
       "height": "",

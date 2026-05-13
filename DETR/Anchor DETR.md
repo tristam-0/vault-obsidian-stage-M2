@@ -1,3 +1,4 @@
+https://arxiv.org/pdf/2109.07107
 Dans l’architecture de base de **DETR**, chaque object query peut finir par couvrir une région assez large de l’image.  
 Le problème est que ces object queries ne sont pas explicitement contraintes à se concentrer sur une zone précise, ce qui rend l’optimisation plus difficile.
 Dans l'article, il propose l'utilisation des **anchor points** afin de guider chaque object query vers une position spatiale plus localisée.
@@ -5,12 +6,13 @@ Dans l'article, il propose l'utilisation des **anchor points** afin de guider ch
 
 ## Anchor Points
 
-Un **anchor point** correspond à une position (x,y)(x,y) sur la feature map, avec des coordonnées normalisées entre 0 et 1.
+Un **anchor point** correspond à une position (x,y) sur la feature map, avec des coordonnées normalisées entre 0 et 1.
 Ces points peuvent être :
 - initialisés sur une grille,
 - initialisés aléatoirement, puis appris pendant l’entraînement.
 ![[Pasted image 20260507141729.png]]
 L’idée est que chaque **object query** soit associé à un point d’ancrage, ce qui rend son rôle plus interprétable.
+![[Anchor DETR-1778595133002.webp]]
 ## Anchor Points
 ### Attention dans DETR
 $$ \text{Attention}(Q,K,V) = \text{softmax}\left(\frac{QK^T}{\sqrt{d_k}}\right)V $$
@@ -29,7 +31,7 @@ K_p = g_{\sin}(\text{Pos}_k), \quad \text{Pos}_k \in \mathbb{R}^{HW \times 2}
 $$
 ### Anchor Points → Object Query
 **Problème learned $Q_p$** : pas interprétable, pas localisé
-**Solution DAB** : remplacer  learned embedding par un positional encoding les **anchor points** $\text{Pos}_q \in \mathbb{R}^{N_A \times 2}$ :
+**Solution DAB** : remplacer  learned embedding par un positional encoding les **anchor points** que on note $\text{Pos}_q \in \mathbb{R}^{N_A \times 2}$ qui corespondent  au $N_a$ anchor points avec leur (x,y) positon:
 $$
 Q_p = \text{Encode}(\text{Pos}_q)
 $$

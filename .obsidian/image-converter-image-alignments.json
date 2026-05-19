@@ -215,6 +215,12 @@
       "width": "",
       "height": "",
       "wrap": false
+    },
+    "82334bd696899aa40437b04da5216331": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
     }
   },
   "DETR/Anchor DETR.md": {
@@ -1231,10 +1237,226 @@
       "width": "",
       "height": "",
       "wrap": false
+    },
+    "4e91f286b5f54a807fadfcde19e201ac": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
+    },
+    "8e3419a46e9b6b9f74d8b6c6d5e2a0a9": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
+    },
+    "37a2bfdd66d03bb81f5477cf9a0a78ff": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
+    },
+    "c44f3eb4f0327e571488705356560d6a": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
+    },
+    "d0bdce7590e6805724f2fe4347820a60": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
+    },
+    "26648ace4e51f48a0448071d853bf15f": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
+    },
+    "eb10765fb5419f9e08a8265da9665287": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
+    },
+    "27e77af39139d500a96320ddb6ad748d": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
+    },
+    "cb308b06fe6b3ba47a48c82f1ed623a7": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
+    },
+    "c7b5aad6bcdb1b2530fbf6e391c9490e": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
+    },
+    "ce9567bf52577a9b935855368d4477a0": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
+    },
+    "f4b7cf0f10b40bc95181950f47475c03": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
+    },
+    "c049d0e903389689130fa2e939c4d8a1": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
+    },
+    "13c44ee0cdc08f47207bc901ef469d77": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
+    },
+    "d6892ed811b88eb2e9e88f3f9de8f2a7": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
+    },
+    "c03005c35532e2a69d029eee385fea1b": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
+    },
+    "6edcf15be51c2e3db5bbba9117aeb6db": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
     }
   },
   "Deformable convolution.md": {
     "f415633d3ff19e87b6778cb39b67f50d": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
+    },
+    "e1b7669703c1988afd7a6c844ff25eda": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
+    },
+    "724c6073c46fdef52466bbeaf34bcb17": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
+    },
+    "a5cf5cd6a729f8e47c40751368e9d1ff": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
+    },
+    "a7293bf9086c0634a4d31b5a37db28fb": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
+    },
+    "d6dbe0b459ba71ec38467913719689b2": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
+    },
+    "7a96986b6f4521ea7b4d5e7e724691e3": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
+    },
+    "9190cba59bd11db9271a49ea478f5d92": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
+    },
+    "401ce6c8d3e650c070ad3312b4b25a93": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
+    },
+    "65e9dea8441161b79fb9fc42c322abb5": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
+    },
+    "ce6285f0f590e889b7ad1feadca07444": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
+    },
+    "f71b2f9fa21a662289c0d111169343f4": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
+    },
+    "5aa44cb26a0a5a9aabb3bf3efec88e8e": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
+    },
+    "4873c2e74f1e877d39024251ca1d8a64": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
+    },
+    "0e9ec506e74282a3c7005d6df1ed3c07": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
+    },
+    "c411f4d493fa8855912f7be3a1a10e42": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
+    },
+    "50150a3d4894bde36ba16abc156d7236": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
+    },
+    "b64f28e3a38e9884194dbcc44174dfaa": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
+    },
+    "16e20105cf9a6835c6294d2bfc1f02a8": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
+    },
+    "637096ea30d8c4ae10ab59d2cf9dc2d0": {
       "position": "center",
       "width": "",
       "height": "",
@@ -1581,6 +1803,60 @@
       "wrap": false
     },
     "e1b07a595bd120c21a525e8ce7120330": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
+    },
+    "2e1280d17187006225bb4c6c13b2382f": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
+    },
+    "91d2f7fbaf2ab4ea9f97b667fdf28b45": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
+    },
+    "28ca43962e9f279d331d18a0f9503c7b": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
+    },
+    "b78775c6323a0af8d01dd108a7a011cc": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
+    },
+    "075a537e592c4af428abc08f07ad4330": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
+    },
+    "6c29adef952f2530bfbc2b34792dffbb": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
+    },
+    "b3c0b6ee1209fe8711ce6b9bd908cf9d": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
+    },
+    "51309bd9b4dbfd3ea6a7a2e4daed7fba": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
+    },
+    "779ed6a4ac30ec605b6eaef0ba0b3c31": {
       "position": "center",
       "width": "",
       "height": "",

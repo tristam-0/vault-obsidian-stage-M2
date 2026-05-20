@@ -47,7 +47,7 @@ le posésuse est le suivent :
 
 **Dans l'Attention Déformable :** C'est la **Query ($z_q$)** qui va prédire elle-même où elle veut regarder (les offsets) et avec quelle importance (les poids d'attention).
 
-### Deformable Attention Module
+### Déformable Attention Module
 $\LARGE \mathrm{DeformAttn}(z_q, p_q, x) = \sum_{m=1}^{M} W_m \left[ \sum_{k=1}^{K} A_{mqk} \cdot W'_m x\bigl(p_q + \Delta p_{mqk}\bigr) \right]$Pour une seule head d'attention ($m$) :
 $\LARGE \mathrm{OneDeformAttn}(z_q,p_q, x) = \sum_{k=1}^{K} A_{mqk} \cdot W'_m x\bigl(p_q + \Delta p_{mqk}\bigr)$
 #### 1. Les Entrées
@@ -89,5 +89,26 @@ $\LARGE \mathrm{OneDeformAttn}(z_q,p_q, x) = \sum_{k=1}^{K} A_{mqk} \cdot W'_m x
 Dans l'attention classique, $A_{mqk}$ était calculé par un produit scalaire Query-Key géant. Ici, c'est beaucoup plus simple :
 - Les poids $A_{mqk}$ et les offsets $\Delta p_{mqk}$ sont **tous les deux prédits directement** en appliquant une simple projection linéaire (une couche Dense/Linéaire) sur la Query $z_q$ . Cette projection génère directement un vecteur de dimension $3 \times M \times K$  et on utilise 1MK pour obtenir les poids d'attention $A_{mqk}$ (après passage dans un Softmax)
 - La somme de ces poids d'attention $A_{mqk}$ pour les $K$ points est égale à 1 (normalisée via un Softmax).
+	- **questionnement** : Dans DCNv3 (amélioration de DCNv2 qui a inspiré l'approche), ils ont ajouté un Softmax qui a ensuite été enlevé dans DCNv4 (car il créait un goulot d'étranglement mémoire), déléguant ainsi la normalisation à des couches de normalisation externes. Possibilité de faire de même ?
 
 ### Multi-scale Deformable Attention Module
+idée de modifia le Deformable Attention Module pour pouvoir exploiter plusieur multi-scale feature maps
+
+$$\mathrm{MSDeformAttn}(z_q, \hat{p}_q, \{x_l\}_{l=1}^L) = \sum_{m=1}^{M} W_m \left[ \sum_{l=1}^{L} \sum_{k=1}^{K} A_{mlqk} \cdot W'_m x_l\bigl(\phi_l(\hat{p}_q) + \Delta p_{mlqk}\bigr) \right]$$
+Pour une seule head d'attention ($m$) :
+$$\mathrm{OneMSDeformAttn}(z_q, \hat{p}_q, \{x_l\}_{l=1}^L) =  \sum_{l=1}^{L} \sum_{k=1}^{K} A_{mlqk} \cdot W'_m x_l\bigl(\phi_l(\hat{p}_q) + \Delta p_{mlqk}\bigr) $$
+#### lexique
+- **$L$** : Représente le nombre de niveaux de résolutions (couches de features du backbone, souvent $L=4$).
+- **$x_l \in \mathbb{R}^{C \times H_l \times W_l}$** : La feature map du niveau $l$ .
+- **$\hat{p}_q$** : Le point de référence exprimé en coordonnées **normalisées** (entre 0 et 1) pour être indépendant de la taille des différentes cartes de caractéristiques.
+- **$\phi_l(\hat{p}_q)$** : Une fonction de mise à l'échelle (un-normalization) qui réajuste les coordonnées de $\hat{p}_q$ à la résolution réelle (pixels réels) de la feature map du niveau $l$.
+### Différences :
+- Dans la version multi-échelle, le Softmax est appliqué **globalement sur tous les niveaux et tous les points en même temps**. Pour une tête d'attention donnée ($m$), le modèle dispose de $L \times K$ points au total (par exemple $4 \text{ niveaux} \times 4 \text{ points} = 16 \text{ points}$). Le Softmax répartit l'importance (le budget d'attention de 100 %) sur ces 16 points.
+Dans l'encoder :
+- **Scale-Level Embedding :** il y a un besoin d'avoir une représentation du niveau de l'échelle $e_l$.
+    - Celle-ci est initialisée aléatoirement avec le réseau et est apprise.
+    - Elle est ajoutée à l'entrée de l'encodeur.
+        - **Critique/Questionnement :** Dans _End-to-End Object Detection with Transformers_, il a été montré qu'ajouter le _spatial positional encoding_ directement à l'attention arrivait à de meilleurs résultats. Possibilité que la même chose soit possible pour le _Scale-Level Embedding_ ?
+
+Dans le decoder :
+- modification d'uniqument de la cross-attantion la sef-atantion restele celle de End-to-End Object Detection 

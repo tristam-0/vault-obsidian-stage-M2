@@ -103,13 +103,13 @@ Une couche partagée supplémentaire de normalisation est utilisée pour normali
 
 **`d`** = **dimension d'embedding**
 ### exemple
-image 800*1333 -> feature map $25*41$ -> HW=1025
+image $800\times1333$ -> feature map $25\times41$ -> HW=1025
 d=256
 N = 100
 
 **Encodeur** : Self-attention : 336 134 400
 **Décodeur** :
 - Self-attention : 9 113 600
-- Cross-attention :  99 968 00
+- Cross-attention :  99 968 000
 - total = 109 081 600
 encodeur demande un peu plus de 3 fois plus d’opérations que le décodeur

@@ -111,4 +111,58 @@ Dans l'encoder :
         - **Critique/Questionnement :** Dans _End-to-End Object Detection with Transformers_, il a été montré qu'ajouter le _spatial positional encoding_ directement à l'attention arrivait à de meilleurs résultats. Possibilité que la même chose soit possible pour le _Scale-Level Embedding_ ?
 
 Dans le decoder :
-- modification d'uniqument de la cross-attantion la sef-atantion restele celle de End-to-End Object Detection 
+- modification d’uniquement de la cross-attention la self-attention reste celle de End-to-End Object Detection 
+
+dans la classification final
+- changement du fonction de la détermination de la box. (need lire Appendix A.3)
+
+## Computational complexity
+### Déformable Attention Module
+selon le papier le coup de Déformable Attention Module est
+$$\mathcal{O}(N_q C^2 + min(HWC²,N_qKC^2)+5N_q K C)$$
+on repend les valeur utilise dans pour le meme calcul dans [[DETR]]
+image $800\times1333$ -> feature map $25\times41$ -> $HW=1025$
+- $C$ : Dimension d'embedding (équivalent à $d = 256$)
+- $N_q$ : Nombre de requêtes (queries)
+- $HW$ : Taille de la feature map ($1025$)
+- $K$ : Nombre de points clés échantillonnés par requête ($4$)
+
+1. Dans l'Encodeur ($N_q = HW = 1025$)
+**Calcul numérique :**
+Partie projections et clés : $2 \times 1025 \times 256^2 = 2 \times 1025 \times 65536 = 134\,348\,800$
+Partie échantillonnage (linéaire) : $5 \times 1025 \times 4 \times 256 = 5\,248\,000$
+**Total Encodeur Déformable = $139\,596\,800$ opérations**
+VS DETR 336M
+
+2. Dans la Cross-Attention du Décodeur ($N_q = 100$)
+**Calcul numérique :**
+Projection des requêtes : $100 \times 256^2 = 6\,553\,600$
+Valeurs échantillonnées : $100 \times 4 \times 256^2 = 26\,214\,400$
+Coordonnées et poids d'attention : $5 \times 100 \times 4 \times 256 = 512\,000$
+**Total Décodeur (Cross-Attention) = $33\,280\,000$ opérations**
+VS DETR 99M
+
+### Déformable Attention Module multi-scale
+(A revérifier)
+La formule de complexité s'ajuste en multipliant l'échantillonnage par le nombre de niveaux $L$ (ici, $L=4$) :
+$$\mathcal{O}(N_q C^2 + \min(\sum_{l=1}^{L} H_l W_l C^2, N_q L K C^2) + 5 N_q L K C)$$
+Posons d'abord les résolutions de nos feature maps à partir d'une image d'origine de $800 \times 1333$. Les niveaux de réduction classiques (strides) d'un ResNet sont $/8, /16, /32, /64$ :
+- **Niveau 1 ($/8$)** : $100 \times 166 \approx 16\,600$ pixels ($H_1 W_1$)
+- **Niveau 2 ($/16$)** : $50 \times 83 \approx 4\,150$ pixels ($H_2 W_2$)
+- **Niveau 3 ($/32$)** : $25 \times 41 = 1\,025$ pixels ($H_3 W_3$)
+- **Niveau 4 ($/64$)** : $13 \times 21 \approx 273$ pixels ($H_4 W_4$)
+**Total des pixels multi-échelles ($\sum HW$)** = $16\,600 + 4\,150 + 1\,025 + 273 = \mathbf{22\,048}$
+
+**Paramètres**
+- $C = 256$
+- $K = 4$ points par échelle
+- $L = 4$ échelles
+- $L \times K = 16$ points échantillonnés au total par requête.
+
+### 1. Multi-Scale dans l'Encodeur
+Dans l'encodeur multi-échelle, **chaque pixel de chaque échelle** génère une requête. Le nombre total de requêtes est donc la somme de tous les pixels : $N_q = \sum HW = 22\,048$.
+
+**Calcul numérique :**
+- Partie projections et clés : $2 \times 22\,048 \times 256^2 = 2 \times 22\,048 \times 65\,536 = \mathbf{2\,889\,940\,992}$
+- Partie échantillonnage ($5 N_q L K C$) : $5 \times 22\,048 \times 4 \times 4 \times 256 = \mathbf{451\,543\,040}$
+- **Total Encodeur Multi-Scale = $3\,341\,484\,032$ opérations (~3.34 Milliards)**

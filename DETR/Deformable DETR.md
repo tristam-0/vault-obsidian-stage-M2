@@ -1,14 +1,7 @@
-Cet article propose des modification de architecture [[DETR]]
-## Amélioration par rapport à DETR. 
-amélioration des performances sur les petits objets et meilleures performances obtenues en 10 fois moins d'entraînement 
-
-## origine de l'idee
-![[Deformable convolution]]
-## Deformable DETR — Attention
-propose une modification du calcule de l'attantion
-de
-
-### Deformable DETR — Attention Classique
+Cet article propose des modifications de l'architecture [[DETR]]
+https://arxiv.org/pdf/2010.04159 
+## Rappel : Attention Classique (DETR)
+### Formulations Mathématiques Attention Classique
 Le papier définit la Multi-Head Attention classique de la manière suivante :
 $\LARGE \mathrm{MultiHeadAttn}(z_q, x) = \sum_{m=1}^{M} W_m \left[ \sum_{k \in \Omega_k} A_{mqk} \cdot W'_m x_k \right]$
 Pour simplifier, on peut isoler le calcul d'une seule tête ($m$) :
@@ -37,17 +30,18 @@ $$A_{mqk} \propto \exp \left\{ \frac{(U_m z_q)^T (V_m x_k)}{\sqrt{C_v}} \right\}
 ## Attention déformable
 L'idée centrale est de passer d'un calcul **global** (regarder partout HW) à un calcul **local et adaptatif** (regarder uniquement quelques points pertinents N<<HW).
 
-idée est inspirée de la convolution déformable :
+l'idée est inspirée de la convolution déformable :
 ![[Pasted image 20260504145939.webp]]
-le posésuse est le suivent :
+le processus est le suivant :
 1. Convolution Classique (Grille rigide 3x3) 
 2. Détermination des Offsets (on a un tenseur 2N canaux pour avoir $\Delta x , \Delta x$) 
-3. Grille Déformée (Interpolation bilinéaire pour trouvais quelle pixel utiliser)  
+3. Grille Déformée (Interpolation bilinéaire pour trouver quel pixel utiliser)  
 4. Convolution Finale (Sur les pixels décalés de la feature map original)
 
 **Dans l'Attention Déformable :** C'est la **Query ($z_q$)** qui va prédire elle-même où elle veut regarder (les offsets) et avec quelle importance (les poids d'attention).
 
-### Déformable Attention Module
+### Déformable Attention Module (Single-Scale)
+![[Deformable DETR-1779277411685.webp]]
 $\LARGE \mathrm{DeformAttn}(z_q, p_q, x) = \sum_{m=1}^{M} W_m \left[ \sum_{k=1}^{K} A_{mqk} \cdot W'_m x\bigl(p_q + \Delta p_{mqk}\bigr) \right]$Pour une seule head d'attention ($m$) :
 $\LARGE \mathrm{OneDeformAttn}(z_q,p_q, x) = \sum_{k=1}^{K} A_{mqk} \cdot W'_m x\bigl(p_q + \Delta p_{mqk}\bigr)$
 #### 1. Les Entrées
@@ -57,7 +51,7 @@ $\LARGE \mathrm{OneDeformAttn}(z_q,p_q, x) = \sum_{k=1}^{K} A_{mqk} \cdot W'_m x
     - **Comment est-il déterminé ?**
         - **Dans l'Encodeur :** Ce sont des coordonnées fixes générées à partir d'une grille régulière. Le point $p_q$ correspond au centre de chaque pixel/cellule de la feature map.
         - **Dans le Décodeur :** Il est prédit dynamiquement à partir de l' *Object Query* par une couche linéaire suivie d'une fonction `Sigmoid`
-			- [[Anchor DETR]] possible d'utiliser une grille comme dans anchore DETR.
+			- Possible d'utiliser une grille comme dans [[Anchor DETR]].
 #### 2. Le mécanisme d'échantillonnage local ($K$)
 - **$K$** : Le nombre total de points d'échantillonnage par tête (avec $K \ll HW$). Le modèle ne va regarder que $K$ pixels au lieu de toute l'image.
 - **$\Delta p_{mqk}$** : L'offset 2D (déplacement en $\Delta x, \Delta y$).
@@ -70,7 +64,7 @@ $\LARGE \mathrm{OneDeformAttn}(z_q,p_q, x) = \sum_{k=1}^{K} A_{mqk} \cdot W'_m x
         - **Filiation historique :**
             - **DCNv1 (2017) :** Introduction de l'échantillonnage par interpolation bilinéaire. Les coordonnées hors-bornes renvoient une valeur nulle.
             - **DCNv2 (2018) :** Ajout d'un poids de modulation (masque entre 0 et 1) permettant au réseau d'apprendre à "ignorer" activement les offsets aberrants ou hors-cadre.
-            - **Deformable DETR (2021) :** Reprend le zero-padding et le poids d'attention $A_{mqk}$ fait office de modulateur et subit un softmax et par Backpropagation ou réduire le poids d'attention $A_{mqk}$ vers 0 ou corriger l'offset $\Delta p_{mqk}$.
+            - **Deformable DETR (2021) :** Reprend le zero-padding et le poids d'attention $A_{mqk}$ fait office de modulateur et subit un softmax et par Backpropagation ou réduire le poids d'attention $A_{mqk}$ vers 0 et/ou corriger l'offset $\Delta p_{mqk}$.
             - - **DCNv3 (2022/2023) :** Introduit un **Softmax** sur les masques de modulation (inspiré des Transformers) pour stabiliser l'entraînement à grande échelle. C'est aussi l'introduction du partage des canaux par **groupes** (similaires aux têtes d'attention).
 	        - **DCNv4 (2024) :** Retire le Softmax car il créait un goulot d'étranglement mémoire (Memory Bound) trop lourd sur le GPU. La stabilisation de la somme des poids n'est plus faite *dans* l'opérateur, mais déléguée aux couches de normalisation externes (**LayerNorm / RMSNorm**) situées entre les blocs de l'architecture.
 	- **Comment fonctionne la Backpropagation avec des coordonnées floues ?**
@@ -92,7 +86,8 @@ Dans l'attention classique, $A_{mqk}$ était calculé par un produit scalaire Qu
 	- **questionnement** : Dans DCNv3 (amélioration de DCNv2 qui a inspiré l'approche), ils ont ajouté un Softmax qui a ensuite été enlevé dans DCNv4 (car il créait un goulot d'étranglement mémoire), déléguant ainsi la normalisation à des couches de normalisation externes. Possibilité de faire de même ?
 
 ### Multi-scale Deformable Attention Module
-idée de modifia le Deformable Attention Module pour pouvoir exploiter plusieur multi-scale feature maps
+L'idée est de modifier le Deformable Attention Module pour pouvoir exploiter plusieurs multi-scale feature maps
+![[Deformable DETR-1779280813270.webp]]
 
 $$\mathrm{MSDeformAttn}(z_q, \hat{p}_q, \{x_l\}_{l=1}^L) = \sum_{m=1}^{M} W_m \left[ \sum_{l=1}^{L} \sum_{k=1}^{K} A_{mlqk} \cdot W'_m x_l\bigl(\phi_l(\hat{p}_q) + \Delta p_{mlqk}\bigr) \right]$$
 Pour une seule head d'attention ($m$) :
@@ -102,25 +97,43 @@ $$\mathrm{OneMSDeformAttn}(z_q, \hat{p}_q, \{x_l\}_{l=1}^L) =  \sum_{l=1}^{L} \s
 - **$x_l \in \mathbb{R}^{C \times H_l \times W_l}$** : La feature map du niveau $l$ .
 - **$\hat{p}_q$** : Le point de référence exprimé en coordonnées **normalisées** (entre 0 et 1) pour être indépendant de la taille des différentes cartes de caractéristiques.
 - **$\phi_l(\hat{p}_q)$** : Une fonction de mise à l'échelle (un-normalization) qui réajuste les coordonnées de $\hat{p}_q$ à la résolution réelle (pixels réels) de la feature map du niveau $l$.
-### Différences :
+#### Différences :
 - Dans la version multi-échelle, le Softmax est appliqué **globalement sur tous les niveaux et tous les points en même temps**. Pour une tête d'attention donnée ($m$), le modèle dispose de $L \times K$ points au total (par exemple $4 \text{ niveaux} \times 4 \text{ points} = 16 \text{ points}$). Le Softmax répartit l'importance (le budget d'attention de 100 %) sur ces 16 points.
 Dans l'encoder :
 - **Scale-Level Embedding :** il y a un besoin d'avoir une représentation du niveau de l'échelle $e_l$.
     - Celle-ci est initialisée aléatoirement avec le réseau et est apprise.
     - Elle est ajoutée à l'entrée de l'encodeur.
         - **Critique/Questionnement :** Dans _End-to-End Object Detection with Transformers_, il a été montré qu'ajouter le _spatial positional encoding_ directement à l'attention arrivait à de meilleurs résultats. Possibilité que la même chose soit possible pour le _Scale-Level Embedding_ ?
+**Dans le décodeur :**
+- **Attention :** Seule la _cross-attention_ est modifiée pour devenir déformable. La _self-attention_ reste identique à celle du DETR original (_End-to-End Object Detection_).
+**Dans la classification finale :**
+- **Prédiction des boîtes :** Modification de la fonction de détermination des _bounding boxes_ 
+**Dans l'input :** 
+![[Deformable DETR-1779280869522.webp]]
+les couches exploitées sont obtenues à partir des différentes couches du CNN
 
-Dans le decoder :
-- modification d’uniquement de la cross-attention la self-attention reste celle de End-to-End Object Detection 
+## bounding box prediction in deformable DETR
 
-dans la classification final
-- changement du fonction de la détermination de la box. (need lire Appendix A.3)
+- idée : deformable DETR utiliser des Point de référence ($\hat{p}_q$) prédit à partir de son _query embedding_ via un réseau linéaire simple (FFN) suivi d'une fonction sigmoïde. donc la head de détection de Deformable DETR ne prédit que des **offsets relatifs (des décalages)** par rapport à un point de référence.
+Le module de classification finale utilise un Feed-Forward Network (FFN) à 3 couches pour prédire la boîte finale sous la forme suivante :
+$$\text{Box} = \{ \sigma(\Delta x + \sigma^{-1}(\hat{p}_{qx})), \sigma(\Delta y + \sigma^{-1}(\hat{p}_{qy})), \sigma(\Delta w), \sigma(\Delta h) \}$$
+- **$\hat{p}_{qx}, \hat{p}_{qy}$** : Les coordonnées normalisées du point de référence initial.
+- **$\Delta x, \Delta y$** : Les offsets (décalages) prédits par le FFN pour recadrer le centre de la boîte.
+- **$\Delta w, \Delta h$** : Les tailles (largeur/hauteur) prédites, relatives au point.
+- **$\sigma$ (Sigmoïde) :** Appliquée à la fin pour s'assurer que toutes les coordonnées finales de la boîte restent bien comprises entre $0$ et $1$ (normalisées par rapport à l'image).
+###  Iterative Bounding Box Refinement
+Pour améliorer encore la précision, Deformable DETR propose une variante où chaque couche du décodeur affine itérativement les prédictions de la couche précédente.
+- **Formulation mathématique :** Pour une couche de décodeur $d$ (allant de $1$ à $D$) :
+    - Le point de référence fourni est la boîte de la couche précédente : $\hat{b}^{d-1} = \{\hat{x}^{d-1}, \hat{y}^{d-1}, \hat{w}^{d-1}, \hat{h}^{d-1}\}$.
+    - La couche $d$ prédit de nouveaux deltas de modification : $\Delta b^d = \{\Delta x^d, \Delta y^d, \Delta w^d, \Delta h^d\}$.
+La nouvelle boîte affinée est calculée ainsi :    $\hat{b}^d = \{ \sigma(\Delta x^d + \sigma^{-1}(\hat{x}^{d-1})), \sigma(\Delta y^d + \sigma^{-1}(\hat{y}^{d-1})), \sigma(\Delta w^d + \sigma^{-1}(\hat{w}^{d-1})), \sigma(\Delta h^d + \sigma^{-1}(\hat{h}^{d-1})) \}$
+## two-stage deformable DETR
 
 ## Computational complexity
 ### Déformable Attention Module
-selon le papier le coup de Déformable Attention Module est
+selon le papier le coûp de Déformable Attention Module est
 $$\mathcal{O}(N_q C^2 + min(HWC²,N_qKC^2)+5N_q K C)$$
-on repend les valeur utilise dans pour le meme calcul dans [[DETR]]
+on reprend les valeurs utilisées pour le même calcul dans [[DETR]]
 image $800\times1333$ -> feature map $25\times41$ -> $HW=1025$
 - $C$ : Dimension d'embedding (équivalent à $d = 256$)
 - $N_q$ : Nombre de requêtes (queries)

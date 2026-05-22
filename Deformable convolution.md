@@ -1,4 +1,4 @@
-https://arxiv.org/pdf/1703.06211
+ttps://arxiv.org/pdf/1703.06211
 
 ## idée
 ![[Pasted image 20260504145939.webp]]

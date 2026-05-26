@@ -179,3 +179,27 @@ Dans l'encodeur multi-échelle, **chaque pixel de chaque échelle** génère une
 - Partie projections et clés : $2 \times 22\,048 \times 256^2 = 2 \times 22\,048 \times 65\,536 = \mathbf{2\,889\,940\,992}$
 - Partie échantillonnage ($5 N_q L K C$) : $5 \times 22\,048 \times 4 \times 4 \times 256 = \mathbf{451\,543\,040}$
 - **Total Encodeur Multi-Scale = $3\,341\,484\,032$ opérations (~3.34 Milliards)**
+
+
+
+
+
+## Modification du HungarianMatcher : Intégration de la Focal Loss
+> [!info] Liens utiles
+> * Concept théorique : [[Focal Loss]]
+> * Code source : `models/matcher.py` (Deformable DETR / Anchor DETR)
+
+### Ce qui change :
+Dans les évolutions de DETR, le calcul du coût de classification du Matcher passe d'un `softmax` classique à une **Focal Loss** basée sur des `sigmoid` indépendantes .
+> [!warning] Changement architectural implicite (Softmax vs Multi-Sigmoïdes)
+> L'utilisation de la Focal Loss impose un changement radical dans la manière dont le modèle prédit les classes, bien que ce ne soit pas détaillé explicitement dans le texte du papier :
+> 
+> * **DETR Original (Softmax) :** Le modèle utilise une unique fonction `softmax` globale. Toutes les classes (y compris la classe "fond") sont en compétition directe au sein d'une distribution de probabilité unique qui doit obligatoirement sommer à $1.0$.
+> * **Modèles Modifiés (Multi-Sigmoïdes indépendantes) :** On jette le Softmax. À la place, **chaque classe possède sa propre activation `sigmoid` indépendante**. La détection devient une suite de questions binaires parallèles (ex: *"Est-ce une voiture ? 0.90"*, *"Est-ce un piéton ? 0.01"*). 
+> 
+> **Les deux conséquences majeures :**
+> 1. **Changement de dimension des tenseurs :** On passe d'une couche de sortie de taille **$X + 1$** classes (où le $+1$ était la classe fond dans le DETR original) à une taille de **$X$** classes seulement. 
+> 2. **Le fond devient un état implicite :** La classe "fond" (background) n'existe plus en tant que variable ou canal de sortie dans le réseau. Le fond correspond désormais au moment exact où **toutes les sigmoïdes de toutes les classes sont simultanément proches de 0**.
+### Pourquoi cette modification ?
+* **Stabilisation de l'entraînement :** En calculant le coût via la formule `pos_cost_class - neg_cost_class`, le Matcher évalue l'impact net d'une requête sur la perte globale. Si le modèle est trop incertain, la classification génère une pénalité (coût positif).
+* **Élimination du bruit d'assignation :** Tant que le modèle est incertain sur les classes (notamment au début de l'entraînement), le coût positif de la Focal Loss neutralise les micro-fluctuations des probabilités (les bruits à $0.01$ ou $0.02$). L'algorithme hongrois se base alors uniquement sur la **géométrie pure ($L_{\text{box}}$)** pour faire ses choix obligatoires, évitant de sauter d'une requête à l'autre et de déstabiliser la classe "fond" (background).

@@ -35,7 +35,7 @@ L'agrégation se fait en deux passes successives (cascade) pour éviter de recon
 on a $V \in \mathbb{R}^{H \times W \times C}$
 $Z=Weighted_{sumW}(A_x,V),Z\in \mathbb{R}^{N_q \times H \times C}$ 
 $Z_{n, h, c} = \sum_{w=1}^{W} A_{x_{n, w}} \cdot V_{h, w, c}$ 
-![[RCDA-1778582188321.webp|697]]
+![[RCDA-1778582188321.webp|697|700x202]]
 $Out=Weighted_{sumH}(A_y,Z),Out\in \mathbb{R}^{N_q \times C}$ 
 $Output_{n, c} = \sum_{h=1}^{H} A_{y, n, h} \cdot Z_{n, h, c}$
 ![[RCDA-1778582345476.webp]]

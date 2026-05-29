@@ -2,7 +2,7 @@ https://arxiv.org/pdf/2109.07107
 Dans l’architecture de base de **DETR**, chaque object query peut finir par couvrir une région assez large de l’image.  
 Le problème est que ces object queries ne sont pas explicitement contraintes à se concentrer sur une zone précise, ce qui rend l’optimisation plus difficile.
 Dans l'article, il propose l'utilisation des **anchor points** afin de guider chaque object query vers une position spatiale plus localisée.
-![[Pasted image 20260507141537.png]]
+![[Pasted image 20260507141537.png|478x477]]
 
 ## Anchor Points
 
@@ -56,7 +56,7 @@ $$ Q^{init} = Q_p +Q^i_f $$
 ![[RCDA]]
 
 ## Modification du HungarianMatcher : Intégration de la Focal Loss
-il reprend l'utilisation de la focal loss de [[Deformable DETR]]]
+il reprend l'utilisation de la focal loss de [[Deformable DETR]]
 > [!info] Liens utiles
 > * Concept théorique : [[Focal Loss]]
 > * Code source : `models/matcher.py` (Deformable DETR / Anchor DETR)
@@ -75,3 +75,27 @@ Dans les évolutions de DETR, le calcul du coût de classification du Matcher pa
 ### Pourquoi cette modification ?
 * **Stabilisation de l'entraînement :** En calculant le coût via la formule `pos_cost_class - neg_cost_class`, le Matcher évalue l'impact net d'une requête sur la perte globale. Si le modèle est trop incertain, la classification génère une pénalité (coût positif).
 * **Élimination du bruit d'assignation :** Tant que le modèle est incertain sur les classes (notamment au début de l'entraînement), le coût positif de la Focal Loss neutralise les micro-fluctuations des probabilités (les bruits à $0.01$ ou $0.02$). L'algorithme hongrois se base alors uniquement sur la **géométrie pure ($L_{\text{box}}$)** pour faire ses choix obligatoires, évitant de sauter d'une requête à l'autre et de déstabiliser la classe "fond" (background).
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

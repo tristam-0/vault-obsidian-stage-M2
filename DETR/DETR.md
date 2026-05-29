@@ -17,7 +17,7 @@ Ensuite :
 - Cette séquence est envoyée dans un transformer encodeur-décodeur.
 
 ### Encodeur–Décodeur
-![[Pasted image 20260429163348.webp]]
+![[Pasted image 20260429163348.webp|697]]
 #### Encodeur
 L’encodeur suit globalement l’architecture standard des transformers, avec une particularité importante :
 - Un encodage positionnel est ajouté aux features pour conserver l’information spatiale ([[Sinusoidal Encoding]] dans l’article).

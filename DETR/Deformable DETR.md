@@ -172,16 +172,13 @@ Posons d'abord les résolutions de nos feature maps à partir d'une image d'orig
 - $L = 4$ échelles
 - $L \times K = 16$ points échantillonnés au total par requête.
 
-### 1. Multi-Scale dans l'Encodeur
+1. Multi-Scale dans l'Encodeur
 Dans l'encodeur multi-échelle, **chaque pixel de chaque échelle** génère une requête. Le nombre total de requêtes est donc la somme de tous les pixels : $N_q = \sum HW = 22\,048$.
 
 **Calcul numérique :**
 - Partie projections et clés : $2 \times 22\,048 \times 256^2 = 2 \times 22\,048 \times 65\,536 = \mathbf{2\,889\,940\,992}$
 - Partie échantillonnage ($5 N_q L K C$) : $5 \times 22\,048 \times 4 \times 4 \times 256 = \mathbf{451\,543\,040}$
 - **Total Encodeur Multi-Scale = $3\,341\,484\,032$ opérations (~3.34 Milliards)**
-
-
-
 
 
 ## Modification du HungarianMatcher : Intégration de la Focal Loss

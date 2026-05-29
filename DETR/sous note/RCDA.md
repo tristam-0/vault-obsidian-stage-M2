@@ -44,19 +44,19 @@ $Output_{n, c} = \sum_{h=1}^{H} A_{y, n, h} \cdot Z_{n, h, c}$
 >Le découpage de l'attention en deux étapes indépendantes ($A_x$ puis $A_y$) impose une contrainte structurelle forte : pour qu'un pixel de l'image situé à la coordonnée $(x, y)$ reçoive une attention élevée, il faut **simultanément** que la Query considère que la colonne $x$ est importante (score élevé dans $A_x$) ET que la ligne $y$ est importante (score élevé dans $A_y$). 
 
 Ce biais force le modèle à focaliser son attention sur l'intersection d'une ligne et d'une colonne, créant une **croix de sélection**
-##    preuve d'utilité
-### computational complexity
-Comme n'utilise pas de matrice H*W on diminue la computational complexity. 
-on paler de passe d'une dépendance quadratique par rapport à la résolution de l'image $O(N_q \cdot (H \cdot W) \cdot C)$à une dépendance linéaire $O(N_q \cdot (H + W) \cdot C)$ sur internet. 
-Mais on ne mentionne que une réduction dans l'article Anchor DETR. Et je n'ai pas trouvé de démonstration. 
-### memory save
+##    Preuve d'utilité
+### Computational complexity
+En s'affranchissant de l'utilisation d'une matrice d'attention globale de taille H×W, le modèle réduit la complexité algorithmique globale. 
+On passe ainsi d'une dépendance quadratique par rapport à la résolution de l'image, soit $\mathcal{O}(N_q \cdot (H + W) \cdot C)$, à une dépendance linéaire, soit $\mathcal{O}(N_q \cdot H \cdot W \cdot C)$. 
+Bien que l'article _Anchor DETR_ se contente de mentionner cette réduction, le résultat peut être vérifié en comparant le coût de calcul de deux opérations _Softmax_ bidimensionnelles découplées (sur la hauteur et la largeur) face au coût d'un unique _Softmax_ global appliqué à l'ensemble des pixels dans l'implémentation classique.
+### Memory save
 le coup principale de memory est l'attention weight map normalement $A \in \mathbb{R}^{N_q \times H \times W \times M}$  
 avec M le nombre de head
 mais dans RDCA on la diviser en 2 , $A_x \in \mathbb{R}^{N_q \times W \times C \times M}$  et $A_y \in \mathbb{R}^{N_q \times H \times C \times M}$
 et l'étape qui demande le plus de mémoire est donc  $z\in \mathbb{R}^{N_q \times H \times C}$
 donc le ratio de memory save devient 
 $$r = \frac{N_q \times H \times W \times M}{N_q \times H \times C} = \frac{W \times M}{C}$$
-### exemple
+### Exemple
 Considérons une configuration avec $M = 8$ têtes d'attention et une dimension de canal $C = 256$. Pour une image de taille originale $640 \times 480$ pixels, le passage par le _backbone_ de DETR réduit la résolution spatiale par un facteur 32, ce qui donne une largeur de carte de caractéristiques $W = 20$.
 Dans ce cas, le ratio d'économie de mémoire est :
 $r = \frac{20 \times 8}{256} = 0,625$

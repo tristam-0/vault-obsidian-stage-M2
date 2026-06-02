@@ -1235,12 +1235,6 @@
       "width": "",
       "height": "",
       "wrap": false
-    },
-    "527c31f3836a6241ef9ef857c1b92df2": {
-      "position": "center",
-      "width": "",
-      "height": "",
-      "wrap": false
     }
   },
   "pieces_jointes/Pasted image 20260427135759.webp": {
@@ -1731,12 +1725,6 @@
       "width": "",
       "height": "",
       "wrap": false
-    },
-    "d0fa7c195bb5eef444d6e998e6aeb8fa": {
-      "position": "center",
-      "width": "",
-      "height": "",
-      "wrap": false
     }
   },
   "DETR/pieces_jointes/Pasted image 20260507154136.png": {
@@ -1757,12 +1745,6 @@
       "width": "",
       "height": "",
       "wrap": false
-    },
-    "1157eba483dd109a0471758f1315a429": {
-      "position": "center",
-      "width": "",
-      "height": "",
-      "wrap": false
     }
   },
   "DETR/pieces_jointes/Pasted image 20260507141537.png": {
@@ -1777,12 +1759,6 @@
       "width": "",
       "height": "",
       "wrap": false
-    },
-    "129d3e1328e020b410fd547f27264390": {
-      "position": "center",
-      "width": "",
-      "height": "",
-      "wrap": false
     }
   },
   "DETR/pieces_jointes/Pasted image 20260507110805.png": {
@@ -1793,12 +1769,6 @@
       "wrap": false
     },
     "5361bfeaa18b97ea8ff41fc7484972cf": {
-      "position": "center",
-      "width": "",
-      "height": "",
-      "wrap": false
-    },
-    "72c26db4492cf7251f6d88b5c4f67a13": {
       "position": "center",
       "width": "",
       "height": "",
@@ -2109,58 +2079,6 @@
       "wrap": false
     }
   },
-  "DETR/pieces_jointes/mico diférance-1780388313783.webp": {
-    "99efa55c3083cabdde22030048105bb6": {
-      "position": "center",
-      "width": "",
-      "height": "",
-      "wrap": false
-    },
-    "9f9f1734dec5206425cc2efef8dcc89a": {
-      "position": "center",
-      "width": "",
-      "height": "",
-      "wrap": false
-    }
-  },
-  "DETR/pieces_jointes/mico diférance-1780388307052.webp": {
-    "da9bbf370288fda646630aa2d37cb32a": {
-      "position": "center",
-      "width": "",
-      "height": "",
-      "wrap": false
-    },
-    "7b025b561eee0d10d88bd4036dde0a82": {
-      "position": "center",
-      "width": "",
-      "height": "",
-      "wrap": false
-    }
-  },
-  "DETR/pieces_jointes/mico diférance-1780388356820.webp": {
-    "66456900dc9f993b9f827afffd122e04": {
-      "position": "center",
-      "width": "",
-      "height": "",
-      "wrap": false
-    }
-  },
-  "DETR/pieces_jointes/mico diférance-1780388379288.webp": {
-    "05148b9c49b48abf6f9f55d9e0233dea": {
-      "position": "center",
-      "width": "",
-      "height": "",
-      "wrap": false
-    }
-  },
-  "DETR/pieces_jointes/Capture d’écran du 2026-06-02 10-19-09.png": {
-    "c0e918942d28607b754d96782fcff6ba": {
-      "position": "center",
-      "width": "",
-      "height": "",
-      "wrap": false
-    }
-  },
   "DETR/pieces_jointes/Anchor DETR-1778595133002.webp": {
     "0fafbeb8ef7b7599c25a1bcb36b3aabd": {
       "position": "center",
@@ -2169,42 +2087,20 @@
       "wrap": false
     }
   },
-  "DETR/pieces_jointes/test.png": {
-    "2d24547a40abcad05a86eac1a796b3e6": {
-      "position": "center",
-      "width": "",
-      "height": "",
-      "wrap": false
-    }
-  },
-  "DETR/pieces_jointes/test.webp": {
-    "0ae700f4b01b7dc1313c9450f7a8ab3a": {
+  "DETR/mico difference.md": {
+    "5209cebe5a20d1baf62e8bc5066da052": {
       "position": "center",
       "width": "",
       "height": "",
       "wrap": false
     },
-    "4e564630f1fe9240c5e4b6a27e45a2d0": {
+    "e96097c4f42500921dc71ca6e60ac81a": {
       "position": "center",
       "width": "",
       "height": "",
       "wrap": false
     },
-    "f44c4413e87652c1440639f0ab79b100": {
-      "position": "center",
-      "width": "",
-      "height": "",
-      "wrap": false
-    },
-    "2d89ece148b7e9cf9eedb2db21b93daa": {
-      "position": "center",
-      "width": "",
-      "height": "",
-      "wrap": false
-    }
-  },
-  "DETR/pieces_jointes/mico diférance imge.webp": {
-    "4e61821d1c4c0451fc8b6134d975ad26": {
+    "0e05b5b45dffd67497a78c868ebc47f0": {
       "position": "center",
       "width": "",
       "height": "",

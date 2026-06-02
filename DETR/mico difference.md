@@ -23,5 +23,11 @@ for proj in self.input_proj:
     nn.init.constant_(proj[0].bias, 0)
 ```
 Seule la convolution (`proj[0]`) est ciblée, la normalisation est ignorée.
-le but est sa stabiliser la variance des valeur utiliser.
-![[test.webp]]
+le but est de stabiliser la variance entre les layer et qui lute contre Vanishing Gradient ou Exploding Gradient.
+![[mico diferanceimg.webp|527]]
+![[mico difference-1780390147512.webp]]
+On constate que les modèles avec initialisation normalisée (notés N) sont plus rapides à l'entraînement et donnent de meilleurs résultats (jusqu'à 11 % de gain sur des tâches visuelles complexes, et plus généralement de 1 à 3 % d'amélioration sur les autres jeux de données de l'article).
+
+pour plus d'information
+https://www.youtube.com/watch?v=lyN-OCCrhuo&pp=ygUcd2VpZ2h0IGluaXRpYWxpemF0aW9uIHhhdmllcg%3D%3D
+https://proceedings.mlr.press/v9/glorot10a/glorot10a.pdf

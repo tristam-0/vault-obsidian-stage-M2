@@ -31,3 +31,19 @@ On constate que les modèles avec initialisation normalisée (notés N) sont plu
 pour plus d'information
 https://www.youtube.com/watch?v=lyN-OCCrhuo&pp=ygUcd2VpZ2h0IGluaXRpYWxpemF0aW9uIHhhdmllcg%3D%3D
 https://proceedings.mlr.press/v9/glorot10a/glorot10a.pdf
+
+---
+
+autre arg dif
+code originale
+parser.add_argument('--dim_feedforward', default=2048, type=int,
+help="Intermediate size of the feedforward layers in the transformer blocks")
+code ancode
+parser.add_argument('--dim_feedforward', default=1024, type=int,
+help="Intermediate size of the feedforward layers in the transformer blocks")
+
+passage de 2028 -> 1024
+
+---
+dropout
+passage de 0.1 a 0

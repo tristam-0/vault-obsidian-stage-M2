@@ -155,6 +155,24 @@
       "width": "",
       "height": "",
       "wrap": false
+    },
+    "ef0d4057e43c729d44db262eff5a17fe": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
+    },
+    "f70a5244f64e9def41a9aca35bfb8098": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
+    },
+    "d81e460c1f51eaa5aa3c33155a62edb2": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
     }
   },
   "DETR/Anchor DETR.md": {
@@ -327,6 +345,18 @@
       "wrap": false
     },
     "eb5b885fa4e93ee46988932d13e594b2": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
+    },
+    "687d38cf63c2ca9f11f857893a73c73d": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
+    },
+    "a34856e033decf37f1e02a52c616f236": {
       "position": "center",
       "width": "",
       "height": "",
@@ -2015,6 +2045,60 @@
       "width": "",
       "height": "",
       "wrap": false
+    },
+    "e58b6218f50e29b1d86a29613eb94219": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
+    },
+    "36981a0fa46fd50cba317b2c900ba81f": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
+    },
+    "00e50150088a1d35b498bca67403b0f9": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
+    },
+    "385f438ec16919c88fd776ef1f3ba2d4": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
+    },
+    "d114d40ad5275600995f3f21af274433": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
+    },
+    "1bb50292a730921b97bcf3b08cc0c277": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
+    },
+    "b384a80f8c76d9eefa3fd16f6a6c05bd": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
+    },
+    "b85fbfb0508265984d724643cb808374": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
+    },
+    "76e1c4338c288c93e6ae1a117bb8830d": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
     }
   },
   "DETR/sous note/Focal loss.md": {
@@ -2077,6 +2161,12 @@
       "width": "",
       "height": "",
       "wrap": false
+    },
+    "ed101ff6285bca8c0c38df469c7c8497": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
     }
   },
   "DETR/pieces_jointes/Anchor DETR-1778595133002.webp": {
@@ -2101,6 +2191,110 @@
       "wrap": false
     },
     "0e05b5b45dffd67497a78c868ebc47f0": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
+    },
+    "a4ddcd803cd208c41aa761a1959d853d": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
+    },
+    "d4296f18a4b7c8c6bfac2d823fe1195a": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
+    },
+    "b6124f213c82cd5990ab9751de031468": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
+    },
+    "0641840dd04e90ab273b1323dec1bfd4": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
+    },
+    "b7424fe9f13865c503391df63338c02d": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
+    },
+    "26369c212f5c81e4f2cabf802feffdc8": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
+    },
+    "8788316163f8903f6741044ccfb31d23": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
+    },
+    "f85ed4334eb6c8afeedbea6657b6cc54": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
+    }
+  },
+  "domain adaptation/vision Transformers in Domain Adaptation Generalization.md": {
+    "006c77a8fb37bb40af7ad22f478379da": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
+    },
+    "383f0959107655033b297092b6aa13ac": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
+    },
+    "973c0d96992451d82807b3a627394a81": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
+    },
+    "eb915aa941f49ee6c7d47f72477e55cc": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
+    },
+    "ac853a19ee88725ed7ad79be9e0dfd8b": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
+    },
+    "a14e693934d602c3c7cdefd01da5f4e3": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
+    },
+    "ef6eba24a7eee2caa6d9dc242f10ee1a": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
+    },
+    "2bf170ace1020b5065df61fe9340564a": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
+    },
+    "8b4cedeeb6d911c786c21b4acf0dbdcf": {
       "position": "center",
       "width": "",
       "height": "",

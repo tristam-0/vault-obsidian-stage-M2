@@ -30,24 +30,27 @@ $$\text{Loss}_{\text{pos}} = - \alpha \cdot (1 - p)^\gamma \cdot \log(p)$$
 * **$\alpha$ (Alpha) — Équilibrage des classes (ex: `alpha = 0.25`) :**
   Il donne un poids de base aux positifs ($\alpha$) et aux négatifs ($1 - \alpha$). 
   * *Contre-intuition importante :* Bien que les positifs soient rares, on utilise $\alpha = 0.25$ (et donc $0.75$ pour les négatifs). C'est parce que le paramètre $\gamma = 2.0$ fait déjà un travail tellement puissant pour écraser la perte des négatifs faciles, qu'un $\alpha$ trop grand en faveur des positifs déstabiliserait l'apprentissage. La combinaison $(\alpha=0.25, \gamma=2.0)$ est le standard empirique universel. (source Focal Loss for Dense Object Detection https://arxiv.org/pdf/1708.02002 page 6 table b)
----
 
-## 💻 Application dans le Hungarian Matcher (Deformable / Anchor DETR)
-Dans le code du Matcher, la Focal Loss est convertie en coût d'association. Pour chaque requête, on calcule la différence de coût entre "considérer la prédiction comme un objet" et "la considérer comme du fond" :
+---
+## ⚙️ L'Initialisation Critique du Modèle (Le couplage avec la Focal Loss)
+
+L'utilisation de la Focal Loss avec des activations Sigmoïdes impose une contrainte mathématique absolue au démarrage de l'entraînement (`day-one`). Si l'on initialise le réseau avec des méthodes classiques (comme Xavier ou He par défaut partout), le modèle va s'effondrer immédiatement (gradients explosifs ou `NaN`). 
+https://arxiv.org/pdf/1708.02002 section 4.1 Initialization
+
+Pour éviter cela, les architectures comme Anchor-DETR configurent une initialisation des points comme recommandais dans la fonction `_reset_parameters()`.
+
+### 1. Stabilisation de la Classification : Le biais négatif a priori
+Au tout premier passage du modèle, les probabilités de sortie doivent être proches de 0 pour toutes les requêtes afin de ne pas déclencher une avalanche de gradients due aux 298 boîtes de fond (Background).
 
 ```python
-alpha = 0.25
-gamma = 2.0
+# Calcul mathématique basé sur une probabilité cible 'prior_prob' de 0.01
+prior_prob = 0.01
+bias_value = -math.log((1 - prior_prob) / prior_prob)  # donne environ -4.6
 
-# Perte si on classifie la requête comme du fond (Négatif)
-neg_cost_class = (1 - alpha) * (out_prob ** gamma) * (-(1 - out_prob + 1e-8).log())
-
-# Perte si on classifie la requête comme l'objet cible (Positif)
-pos_cost_class = alpha * ((1 - out_prob) ** gamma) * (-(out_prob + 1e-8).log())
-
-# Le coût final est la différence : impact sur la perte globale
-cost_class = pos_cost_class[:, tgt_ids] - neg_cost_class[:, tgt_ids]
+# On applique ce biais négatif à la couche finale de classification
+self.class_embed.bias.data = torch.ones(num_classes) * bias_value
 ```
+----
 
 
 ## 📝 Exemples Concrets de Calcul (DETR vs Deformable DETR)

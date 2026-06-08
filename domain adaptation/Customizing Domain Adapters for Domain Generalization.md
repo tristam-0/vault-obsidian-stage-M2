@@ -5,7 +5,7 @@ L'objectif est d'ajouter une couche de généralisation de domaine de type **MoE
 Contrairement à un MoE classique qui remplace le FFN, cette approche conserve le FFN pré-entraîné (gelé) et utilise des **adaptateurs légers (lightweight adapters)** en parallèle comme experts, activés dynamiquement par un **Domain Router**. Cela permet d'adapter les caractéristiques (features) de l'image en fonction de son style, de son environnement ou de son domaine.
 
 ### Flux de données dans un bloc d'encodeur :
-$$\text{Features} \rightarrow \text{Self-Attention} \rightarrow \text{Router} \rightarrow \begin{cases} \text{ViT Adapter A (Domaine 1)} \\ \text{ViT Adapter B (Domaine 2)} \\ \text{Conv Adapter A (Domaine 3)} \\ \text{Conv Adapter B (Domaine 4)} \end{cases} \rightarrow \text{FFN}$$
+$\text{Features} \rightarrow \text{Self-Attention} \rightarrow \text{Router} \rightarrow \begin{cases} \text{ViT Adapter A (Domaine 1)} \\ \text{ViT Adapter B (Domaine 2)} \\ \text{Conv Adapter A (Domaine 3)} \\ \text{Conv Adapter B (Domaine 4)} \end{cases} \rightarrow \text{FFN}$
 
 ![[Customizing Domain Adapters for Domain Generalization-1779957815056.webp]]
 

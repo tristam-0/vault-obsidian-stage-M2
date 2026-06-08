@@ -15,3 +15,7 @@
 
 - **Configuration :** Enlever le Softmax, ajouter la **ReLU**, et **forcer un biais initial positif faible** (ex: `0.1`) dans les paramètres.
 - **Objectif :** Profiter de l'expressivité de la ReLU tout en garantissant qu'au tout début de l'entraînement, aucun point d'attention ne soit "mort" à $0$. Cela devrait donner la convergence la plus rapide et stable dès l'époque 1.
+
+
+
+remplaser relu par gelu pour un peu plus d'exprétion des le négatife ?

@@ -2,7 +2,7 @@ Row-Column Decouple Attention
 Le but de cette attention est de sauver de la mémoire. 
 Elle est utilisée au niveau de la **cross attention** du décodeur et diminue également la computational complexity. 
 ## fonctionnement
-au lieu de réaliser la tension sur les colonnes et les lignes en même temps. La proposition est de réaliser attentions sur les lignes, puis sur les colonnes. 
+au lieu de réaliser l'Attention sur les colonnes et les lignes en même temps. La proposition est de réaliser attentions sur les lignes, puis sur les colonnes. 
 **Attention** : on fais  hypotheses que W>H pour l'ordre de équitation
 **ATTENTION NOTATION** : C est la dimension totale du vecteur. Les auteurs semblent avoir choisi de l'utiliser partout pour représenter ce qui arrive dans l'ensemble des têtes. Si on veut avoir un point de vue mono-tête, il faut remplacer C par $d_k$ . 
 
@@ -26,7 +26,7 @@ on réaliser le positionnelle encoding $g$ sur une dimension $Q_{p,x}=g_{1D}(pos
 $Q_x=Q_{x}+Q_{p,x}$ et $Q_y=Q_{f}+Q_{p,y}$
 
 Ensuite, on calcule les **scores d’alignement** pour les row et les column. On obtient ainsi deux matrices $A_x \in \mathbb{R}^{N_q \times W}$ et $A_y \in \mathbb{R}^{N_q \times H}$.
-qui représentent la tension sur les lignes ou sur les colonnes. 
+qui représentent l'attension sur les lignes ou sur les colonnes. 
 ![[RCDA-1778510411787.webp]]
 ![[RCDA-1778569938880.webp]]
 Il ne nous reste donc plus qu'à les combiner. 

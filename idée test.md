@@ -1,1 +1,3 @@
 [[Anchor DETR]] change l'int de la taille des boite de prétition voir impacte des différente instillation.
+
+---

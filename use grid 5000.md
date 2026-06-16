@@ -32,6 +32,13 @@ export PIP_CACHE_DIR=/tmp/$USER/pip_cache
 pip install -r requirements.txt 
 ```
 
+### Étape 4 : script 
+
+crée un script basht
+puis le rente exscutable
+chmod +x scrip_test_1
+
+
 ## 2. Gestion de l'Espace de Stockage & Quota (Limite 25 Go)
 
 > ⚠️ **Règle d'or :** Ne **JAMAIS** mettre les gros datasets dans le `home` (`~/`). Le dossier personnel est partagé sur le réseau (NFS), le surcharger ralentit toute l'infrastructure.

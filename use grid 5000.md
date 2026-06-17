@@ -15,7 +15,8 @@ mkdir ~/detr-project
 cd ~/detr-project
 git clone https://github.com/ton-compte/ton-repo-detr.git .
 ```
-note pour future : comment copier de site A a site B ?
+
+> `rsync`  pourais étre utilise pour copier les configuration ?
 ### Étape 3 : Configuration du .venv et installation/modification
 1. Création de l'environnement virtuel Python + activation :
 ```bash
@@ -34,7 +35,8 @@ pip install -r requirements.txt
 
 ### Étape 4 : script 
 
-crée un script basht
+crée un script basht pour préparé + l'ensais le travais
+
 puis le rente exscutable
 chmod +x scrip_test_1
 

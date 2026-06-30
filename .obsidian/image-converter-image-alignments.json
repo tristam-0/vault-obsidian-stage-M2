@@ -2323,6 +2323,18 @@
       "width": "",
       "height": "",
       "wrap": false
+    },
+    "f6e906b752b1cf578c61f0eb1f074760": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
+    },
+    "2bbd08eabef79ac040aa31040658f5a7": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
     }
   },
   "test idée enlevais softmax.md": {
@@ -2425,6 +2437,42 @@
   },
   "Sans titre.md": {
     "c2c860dde06c28b486d7b845490d9fdf": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
+    }
+  },
+  "domain adaptation/EW-DETR.md": {
+    "ec457b07b647865ed9baea49fa7bd280": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
+    },
+    "2a98fe11c49630d3e16912fa11771a52": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
+    }
+  },
+  "domain adaptation/pieces_jointes/EW-DETR-figure1.webp": {
+    "3f1e54945fc34a4d5b954a5010b8b269": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
+    }
+  },
+  "DETR/sous note/LoRA.md": {
+    "45a832ca981b239ad64c207fcf2afef8": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
+    },
+    "ce257aca952d83a081cd21b58a7d9c31": {
       "position": "center",
       "width": "",
       "height": "",

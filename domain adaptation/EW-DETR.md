@@ -18,27 +18,71 @@ but de EWOD
 3 modulles intruduis
 ![[EW-DETR-figure3.webp]]
 # Incremental LoRA adapters
+## 1. Concept Général : Incremental LoRA
 Pour éviter l'oubli catastrophique (catastrophic forgetting) lors de l'apprentissage de nouvelles tâches, le modèle attache des **Incremental Low-Rank Adaptation ([[LoRA]]) adapters** aux FFN de l'encodeur et du décodeur du Transformer.
+- **Avantage :** Fournit une mémoire compacte des tâches passées.
+- **Bonus :** Ne nécessite de stocker _aucune_ donnée des tâches précédentes.
+## 2. Architecture des Poids (Low-Rank Adaptation)
 
-
-For each targeted layer at task t with frozen base weight W0, we maintain two low-rank adapters: (c'est quoi un low rabk adapters)
-• Aggregate LoRA Adapter ∆Wt−1  agg : a non-trainable buffer that accumulates knowledge from all previous tasks {T1, . . . , Tt−1}, reused in subsequent tasks. 
-• Task-Specific LoRA Adapter ∆Wt  task : Trainable parameters for the current task Tt to capture task-specific shifts in classes/domains, resets at each task transition.
-
-∆Wt  task = Bt  taskAt  task, ∆Wt−1  agg = Bt−1  agg At−1  agg , (2)  During training at task t, only the task-specific LoRA matrices At  task and Bt  task (pourquoi 2 sous martrice ?)
-## data ilmbalance
-data-aware merging coefficient (βt), bounded by βmin and βmax, that is computed using the ratio between samples seen in current task (Nt) and the cumulative number of samples seen so far previously $(N_{1:t−1})$
+Pour chaque couche ciblée à la tâche $t$, les poids de base du modèle initial ($W_0$) sont **gelés**. Le modèle utilise deux types d'adaptateurs en parallèle :
+1. **Aggregate LoRA Adapter ($\Delta W^{t-1}_{agg}$)** : Un buffer _non-entraînable_ (pendant la tâche $t$) qui accumule et stocke les connaissances de toutes les tâches précédentes.
+2. **Task-Specific LoRA Adapter ($\Delta W^{t}_{task}$)** : Les paramètres _entraînables_ dédiés uniquement à la tâche actuelle pour capturer les spécificités des nouvelles classes. Il est réinitialisé à chaque nouvelle tâche.
+Pour rappel, chacune de ces deux matrices sont constituées de deux matrices de taille plus petites. voir notes [[LoRA]] pour plus d'informations 
+## 3. Gestion du déséquilibre des données (Data Imbalance)
+Lorsqu'on passe à une nouvelle tâche, on doit fusionner les nouvelles connaissances avec les anciennes. Mais si la nouvelle tâche contient énormément de données par rapport au passé, elle risque d'écraser la mémoire.
+pour résoudre Le problème, l'article propose d'utiliser data-aware merging coefficient $β_t$, limiter par $β_{min}$ and $β_{max}$, et pondéré par le nombre d'images des tâches actuelles et précédentes. 
 $$\beta_t = \left\{ \begin{array}{ll} 1, & t = 1, \\[4pt] \beta_{\max} - (\beta_{\max} - \beta_{\min}) \frac{N_t}{N_{1:t-1}}, & t \geq 2. \end{array} \right.$$
-
-pas sur de bien comprendre
-∆Wt  merged = (1 − βt) ∆Wt−1  agg + βt ∆Wt  task. (4)  To keep the Aggregate LoRA adapter low-rank, we project this matrix back to rank r using a truncated Singular Value Decomposition (SVD): ∆Wt  merged = U Σ V⊤, and retain the top-r singular components, so that ∆Wt  merged ≈  Ur Σr Vr⊤. We store this low-rank approximation and use it to compute Aggregate LoRA adapter for Tt:  Bt  agg = Ur Σr, At  agg = V⊤  r , (5)  ∆Wt  agg = Bt  aggAt  agg (6)  While the Task-Specific LoRA adapter is reset
-
-
-c'est quoi le mag il sor de ou ??
-
+- $N_t$ = Nombre d'images dans la tâche actuelle.
+- $N_{1:t-1}$ = Nombre total d'images vues dans **toutes** les tâches précédentes.
+- ## 4. Fusion et Compression (SVD)
+À la fin de l'entraînement de la tâche $t$, on doit mettre à jour la "mémoire globale". On fusionne l'adaptateur spécifique avec l'adaptateur global :
+$$\Delta W^{t}_{merged} = (1 - \beta_t) \Delta W^{t-1}_{agg} + \beta_t \Delta W^{t}_{task}$$
+Pour éviter que cette nouvelle matrice mémoire devienne trop grosse (qu'elle perde son statut "Low-Rank" après l'addition), on la recompresse en utilisant une **SVD tronquée (Singular Value Decomposition)** :
+- Décomposition : $\Delta W^{merged}_t = U \Sigma V^\top$
+- On garde les $r$ composantes principales : $\Delta W^{merged}_t \approx U_r \Sigma_r V_r^\top$
+on découpe le résultat pour recréer nos fameuses deux petites matrices pour la mémoire future :
+- $B^{agg}_t = U_r \Sigma_r$
+- $A^{agg}_t = V_r^\top$
+ainsi , la mémoire de la tache suivante devient : $\Delta W^{agg}_t = B^{agg}_t A^{agg}_t$
 
 # Query-Norm Objectness Adapter
 
-reparameterises the decoder output features to yield a decoupled representation that helps in “unknown” detection.
+Le **Query-Norm Objectness Adapter** a pour but d'aider le modèle à détecter des objets "inconnus" (classes qu'il n'a pas encore apprises) et à résister aux changements de domaine (ex: passer de photos réelles à des dessins). Pour cela, il modifie la sortie du décodeur en séparant deux informations fondamentales :
+1. **La sémantique (Le "Quoi") :** La direction du vecteur de caractéristiques (qui indique la classe de l'objet).
+2. **La magnitude (Le "Est-ce un objet ?") :** La norme (longueur) du vecteur, qui agit comme un indice universel de présence d'objet (_class-agnostic objectness_).
+##  2. Explication Mathématique (Étape par étape)
+
+### Étape A : La Normalisation (Isoler la Direction)
+Soit $h_i$ le vecteur de caractéristiques issu de la **dernière couche du décodeur** pour la requête (query) $i$.
+$$h_{norm} = \frac{\text{LN}(h_i)}{\|\text{LN}(h_i)\|_2}$$
+
+> [!info] 💡 Explication de l'équation 7 
+> 
+> Un vecteur possède toujours deux choses : une **direction** et une **longueur** (la norme).
+> 
+> - **$\text{LN}$** applique une Layer Normalization classique.
+>     
+> - **$\|\cdot\|_2$** calcule la longueur géométrique du vecteur (Norme L2).
+>     
+> - **Pourquoi diviser par la norme ?** En divisant un vecteur par sa propre longueur, on force sa longueur à devenir exactement égale à 1. Le vecteur résultant $h_i^{norm}$ se retrouve projeté sur une " unit sphere".
+>     
+> - **L'intérêt analytique :** En forçant la longueur à 1, on détruit l'information de magnitude. Le vecteur $h_i^{norm}$ ne contient plus _que_ la direction pure (la sémantique de la classe). Ainsi, si le domaine change (covariate shift) et modifie l'amplitude des signaux, cette représentation reste parfaitement stable.
+### Étape B : La Combinaison Convexe (Classification)
+Pour obtenir la caractéristique finale de classification, le modèle ne garde pas uniquement le vecteur normalisé. Il crée un mélange (_convex combination_) entre le vecteur original $h_i$ et le vecteur normalisé $h_i^{norm}$, géré par un paramètre apprenable $\alpha_{mix}$ :
+$$h_{cls} = (1 - \alpha_{mix})h_i + \alpha_{mix}h_{norm}$$
+Ensuite, une couche linéaire classique transforme ce vecteur hybride en prédictions de classes (logits) :
+$$z_{cls} = W_{cls}h_{cls} + b_{cls}$$
+### Étape C : L'évaluation de la "Présence d'Objet" (Objectness)
+Dans les architectures basées sur DETR, il y a un phénomène empirique connu : **les requêtes qui trouvent un vrai objet développent une norme (longueur de vecteur) beaucoup plus grande** que les requêtes qui tombent sur du fond (background). (démontre dans l'article).
+Le module exploite directement cette propriété scalaire $\|h_i\|_2$ (la longueur qu'on avait enlevée à l'étape A). Il la fait passer par un petit réseau de neurones ($f_{obj}$) puis applique un ajustement de température ($\tau$) :
+$$z^{obj}_i = \frac {f_{obj}{(\|h_i\|_2})}{\tau + \epsilon} $$
+Note : $\epsilon$ est juste une toute petite constante (ex: $10^{-5}$) ajoutée pour éviter les erreurs de calcul mathématique (stabilité numérique).
+## 🚀 3. Avantage architectural clé (Zéro surcoût)
+
+L'un des arguments majeurs de ce module est sa légèreté lors de l'entraînement :
+**QNorm-Obj n'introduit aucune fonction de perte (loss) supplémentaire.**
+Il n'y a pas besoin de dire explicitement au modèle "apprends cette norme". Les vecteurs de classification normalisés ($h^{cls}_i$) et le réseau d'objectness ($f_{obj}$) apprennent implicitement à s'ajuster grâce à la fonction de perte standard de détection d'objets (la _detection loss_ classique de DETR).
+
+
 # entropy Aware Unknown Mixing module
 both objectness and classification uncertainty to modulate the final class scores in a balanced manner.

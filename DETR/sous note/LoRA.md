@@ -36,4 +36,4 @@ $$h = Wx + \Delta Wx = Wx + \frac{\alpha}{r}(B \times A)x$$
 L'hyperparamètre $\alpha$ est une constante fixée (souvent égale à la première valeur de $r$ que l'on teste). Le terme $\frac{\alpha}{r}$ agit comme un **coefficient de normalisation de la variance**.
 Si on décide d'augmenter le rang pour donner plus de capacité d'apprentissage au modèle (par exemple, on passe de $r=8$ à $r=32$), la somme contient soudainement 4 fois plus d'éléments. La magnitude (et la variance) des valeurs dans $\Delta W$ va mécaniquement augmenter.
 
-En intégrant $\frac{\alpha}{r}$, on met à l'échelle les activations. Si $r$ double, le diviseur double aussi. **L'amplitude des mises à jour reste mathématiquement constante.** Cela garantit que le _learning rate_ que tu as trouvé pour $r=8$ fonctionnera presque parfaitement pour $r=32$ ou $r=64$.
+En intégrant $\frac{\alpha}{r}$, on met à l'échelle les activations. Si $r$ double, le diviseur double aussi. **L'amplitude des mises à jour reste mathématiquement constante.** 

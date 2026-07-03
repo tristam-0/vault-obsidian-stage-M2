@@ -17,7 +17,6 @@ cd ~/detr-project
 git clone https://github.com/ton-compte/ton-repo-detr.git .
 ```
 
-> `rsync`  pourais étre utilise pour copier les configuration ?
 ### Étape 3 : Configuration du .venv et installation/modification
 1. Création de l'environnement virtuel Python + activation :
 ```bash
@@ -55,8 +54,10 @@ Une fois les scripts prêts et rendus exécutables (`chmod +x start_run scrip/*`
 
 **exemple commande run**
 ```Bash
-oarsub -S "./start_run scrip/ex_train_model.sh" -t night -l /gpu=1,walltime=12:50:00 
+oarsub -q default -t exotic -p "ecotaxe" -l host=1/cpu=1/core=16,gpu=2,walltime=1:00:00 -t day "$HOME/deformable_detr_sofmax/scrip_grid_5000/start_run.sh $HOME/deformable_detr_sofmax/scrip_grid_5000/scrip_run/test_train.sh"
 ```
+
+
 **Que fait cette commande ?**
 1. `"./start_run scrip/ex_train_model.sh"` : La commande que le serveur exécutera. Notre chef d'orchestre (`start_run`) est appelé, et on lui donne en argument la partition de code exacte à jouer (`ex_train_model.sh`).
 2. `-l /gpu=1,walltime=14:00:00` : **La configuration matérielle**. 
@@ -65,6 +66,12 @@ oarsub -S "./start_run scrip/ex_train_model.sh" -t night -l /gpu=1,walltime=12:5
 **Où lire les résultats (Logs) ?** Une fois le job lancé, OAR va créer deux fichiers directement dans le dossier où tu as tapé la commande (souvent la racine du projet) :
 - `OAR.<job_id>.stdout` : Le fichier de sortie standard (tu y verras les `echo` de tes scripts, l'avancement des epochs, etc.).
 - `OAR.<job_id>.stderr` : Le fichier d'erreurs (utile pour déboguer si le script plante avant la fin).
+
+vérifire les job en cour
+oarstat -u $USER
+
+suprimer remplaser 330018 par id du job
+oardel 330018
 
 ## transfer de fichier
 pour telecharger un fichier sur le serveur sur lille
@@ -88,11 +95,3 @@ scp -r tgroussa@access.grid5000.fr:lille/detr-project/scrip ~/Bureau/stage_M2/
 4. **Code Python :** Pointer le chemin des données directement vers le dossier local (ex: `/tmp/mon_dataset`).
 
 > 🔴 **Attention :** Le dossier `/tmp` d'un nœud est **éphémère**. Il est intégralement effacé dès que la réservation (`OAR`) se termine. Le script d'entraînement doit donc copier/décompresser le dataset au début de chaque job.
-
-## 3. Règle d'Usage de VS Code (Charte Administrateurs)
-
-- ❌ **INTERDIT :** Connecter VS Code directement sur la Frontend (`fnancy`, `flille`). Risque de bannissement automatique des processus.
-    
-- ❌ **INTERDIT :** Ouvrir tout le répertoire racine (`~`) dans VS Code (l'indexation récursive fait crasher le serveur NFS).
-    
-- **AUTORISÉ :** Réserver un nœud de calcul via `oarsub -I`, faire un tunnel SSH vers ce nœud spécifique, et ouvrir **uniquement** le sous-dossier du projet (`~/detr-project`).

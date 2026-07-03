@@ -1971,6 +1971,18 @@
       "width": "",
       "height": "",
       "wrap": false
+    },
+    "834dd20315841816aac81a3b292f3cd3": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
+    },
+    "fa952ed266a047421409328bb8356b65": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
     }
   },
   "domain adaptation/Customizing Domain Adapters for Domain Generalization.md": {

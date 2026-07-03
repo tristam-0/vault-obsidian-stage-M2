@@ -2478,5 +2478,21 @@
       "height": "",
       "wrap": false
     }
+  },
+  "domain adaptation/pieces_jointes/EW-DETR-figure3.webp": {
+    "fc9909828aae194f7927453450f46553": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
+    }
+  },
+  "domain adaptation/pieces_jointes/Customizing Domain Adapters for Domain Generalization-1779957815056.webp": {
+    "c2dd1653d8ff22305d53f03fc3f4945c": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
+    }
   }
 }

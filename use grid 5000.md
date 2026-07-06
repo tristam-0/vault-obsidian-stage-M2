@@ -73,6 +73,8 @@ oarstat -u $USER
 suprimer remplaser 330018 par id du job
 oardel 330018
 
+tail -n 2 OAR.330036.stdout
+
 ## transfer de fichier
 pour telecharger un fichier sur le serveur sur lille
 on peux everser l'ordeur pour evoiler un fichier sur le serveur.

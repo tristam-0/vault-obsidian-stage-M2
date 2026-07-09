@@ -1,21 +1,8 @@
-improtent de reconert des ovject non vue comme "inconu"
-
-
-olving World Object Detection (EWOD),
-
-First, Incremental LoRA Adapters (Section 3.3) employ a dual-adapter architecture: an aggregate adapter that accumulates compressed knowledge from all previous tasks and a task-specific adapter that captures current task updates. Through data-aware merging guided by pertask sample ratios and low-rank projection via truncated SVD, we achieve stable knowledge consolidation without storing any exemplars while explicitly addressing data imbalance. Second, Query-Norm Objectness Adapter (Section 3.4) decouples query semantics from magnitude by normalizing decoder features, yielding domain-invariant classagnostic representations that enable robust unknown detection even under severe domain shifts—crucially, without requiring any auxiliary supervision or additional losses, unlike [7, 36]. Third, Entropy-Aware Unknown Mixing (Section 3.5) calibrates unknown predictions by combining classification uncertainty with objectness evidence, ensuring that high-objectness, high-uncertainty queries are correctly identified as unknowns rather than spuriously absorbed into known classes or background.
 
 
 ![[EW-DETR-figure1.webp]]
 
-but de EWOD
 
-(i) detect all known classes Kt across all seen domains {D1, . . . , Dt}; (ii) detect all unseen objects as “unknown” without explicit unknown supervision; (iii) incrementally learn a subset of unknowns as knowns when their labels are revealed in later tasks
-(iv) achieve these objectives in an exemplar-free manner without storing any previous data
-
-
-
-3 modulles intruduis
 ![[EW-DETR-figure3.webp]]
 # Incremental LoRA adapters
 ## 1. Concept Général : Incremental LoRA
@@ -23,12 +10,13 @@ Pour éviter l'oubli catastrophique (catastrophic forgetting) lors de l'apprenti
 - **Avantage :** Fournit une mémoire compacte des tâches passées.
 - **Bonus :** Ne nécessite de stocker _aucune_ donnée des tâches précédentes.
 ## 2. Architecture des Poids (Low-Rank Adaptation)
-
+![[EW-DETR-1783602617354.webp]]
 Pour chaque couche ciblée à la tâche $t$, les poids de base du modèle initial ($W_0$) sont **gelés**. Le modèle utilise deux types d'adaptateurs en parallèle :
 1. **Aggregate LoRA Adapter ($\Delta W^{t-1}_{agg}$)** : Un buffer _non-entraînable_ (pendant la tâche $t$) qui accumule et stocke les connaissances de toutes les tâches précédentes.
 2. **Task-Specific LoRA Adapter ($\Delta W^{t}_{task}$)** : Les paramètres _entraînables_ dédiés uniquement à la tâche actuelle pour capturer les spécificités des nouvelles classes. Il est réinitialisé à chaque nouvelle tâche.
 Pour rappel, chacune de ces deux matrices sont constituées de deux matrices de taille plus petites. voir notes [[LoRA]] pour plus d'informations 
 ## 3. Gestion du déséquilibre des données (Data Imbalance)
+![[EW-DETR-1783602716293.webp]]
 Lorsqu'on passe à une nouvelle tâche, on doit fusionner les nouvelles connaissances avec les anciennes. Mais si la nouvelle tâche contient énormément de données par rapport au passé, elle risque d'écraser la mémoire.
 pour résoudre Le problème, l'article propose d'utiliser data-aware merging coefficient $β_t$, limiter par $β_{min}$ and $β_{max}$, et pondéré par le nombre d'images des tâches actuelles et précédentes. 
 $$\beta_t = \left\{ \begin{array}{ll} 1, & t = 1, \\[4pt] \beta_{\max} - (\beta_{\max} - \beta_{\min}) \frac{N_t}{N_{1:t-1}}, & t \geq 2. \end{array} \right.$$
@@ -52,7 +40,7 @@ Le **Query-Norm Objectness Adapter** a pour but d'aider le modèle à détecter 
 1. **La sémantique (Le "Quoi") :** La direction du vecteur de caractéristiques (qui indique la classe de l'objet).
 2. **La magnitude (Le "Est-ce un objet ?") :** La norme (longueur) du vecteur, qui agit comme un indice universel de présence d'objet (_class-agnostic objectness_).
 ##  2. Explication Mathématique (Étape par étape)
-
+![[EW-DETR-1783602651612.webp]]
 ### Étape A : La Normalisation (Isoler la Direction)
 Soit $h_i$ le vecteur de caractéristiques issu de la **dernière couche du décodeur** pour la requête (query) $i$.
 $$h_{norm} = \frac{\text{LN}(h_i)}{\|\text{LN}(h_i)\|_2}$$

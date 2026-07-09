@@ -23,7 +23,7 @@ git clone https://github.com/ton-compte/ton-repo-detr.git .
 python3 -m venv .venv 
 source .venv/bin/activate
 ```
-2. Configuration du cache de PIP (indispensable pour éviter de stocker les packages lourds comme PyTorch en double dans le Home) :
+2. Configuration du cache de PIP (Pour éviter de stocker les packages lourds comme PyTorch en double dans le Home) :
 ```bash
 mkdir -p /tmp/$USER/pip_cache
 export PIP_CACHE_DIR=/tmp/$USER/pip_cache

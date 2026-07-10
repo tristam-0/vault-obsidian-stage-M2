@@ -1,7 +1,9 @@
 
 
 ![[EW-DETR-figure1.webp]]
-
+le parpier 
+ - incremental learning 
+ - domain adaptation
 
 ![[EW-DETR-figure3.webp]]
 # Incremental LoRA adapters

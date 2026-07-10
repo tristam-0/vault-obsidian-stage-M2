@@ -123,7 +123,7 @@ Le protocole est conçu pour empêcher la triche et imiter une véritable IA en 
 ## 4. Dynamique et Interaction des Gradients (Le flux de l'optimisation)
 
 Puisqu'il n'y a **aucune étiquette "inconnu"** pendant l'entraînement, la cible (_Ground Truth_) de la Focal Loss pour le canal inconnu est **toujours égale à 0**. L'apprentissage des paramètres $\alpha$ et $b_{obj}$ repose entièrement sur un jeu de balance de gradients entre trois cas de figure :
-
+![[EW-DETR-1783689989312.webp]]
 ### 🟢 Cas 1 : Un objet inconnu est confondu avec une classe connue (L'occasion d'apprentissage)
 - **Situation :** L'image contient un objet non annoté (ex: un chien). Le modèle s'y intéresse et fait monter par erreur le logit d'une classe connue (ex: $z_{chat} = +3$).
 - **Cible de la Loss :** Le matcheur n'ayant pas d'annotation pour cette zone, la cible pour _toutes_ les classes (connues et inconnues) est fixée à `0` (Background).

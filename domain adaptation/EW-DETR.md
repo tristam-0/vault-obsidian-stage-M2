@@ -47,7 +47,7 @@ Le **Query-Norm Objectness Adapter** a pour but d'aider le modèle à détecter 
 Soit $h_i$ le vecteur de caractéristiques issu de la **dernière couche du décodeur** pour la requête (query) $i$.
 $$h_{norm} = \frac{\text{LN}(h_i)}{\|\text{LN}(h_i)\|_2}$$
 
-> [!info] 💡 Explication de l'équation 7 
+> [!info] 💡 Explication de l'équation
 > 
 > Un vecteur possède toujours deux choses : une **direction** et une **longueur** (la norme).
 > 
@@ -132,7 +132,6 @@ Puisqu'il n'y a **aucune étiquette "inconnu"** pendant l'entraînement, la cibl
     3. L'encodeur-décodeur (l'attention) maintient un score d'Objectness très fort ($z_{obj}$ haut) car l'objet est physiquement présent.
     
 - **Résultat sur EUMix :** L'optimiseur (AdamW) cherche à minimiser la perte globale de la requête. Il "comprend" que pour éliminer la terrible pénalité liée au faux positif (`chat`), il doit utiliser la valve de sécurité : il ajuste $\alpha$ et augmente le biais positif $b_{obj}$. L'énergie de la fausse alerte est transférée vers le canal inconnu. Même si le canal inconnu subit une petite pénalité (car sa cible est aussi à 0), la réduction de la perte sur la classe connue est tellement immense que l'optimiseur valide ce choix.
-    
 
 ### 🔴 Cas 2 : Du vrai bruit de fond (Le vide complet) est détecté comme inconnu (Faux Positif)
 
@@ -143,7 +142,6 @@ Puisqu'il n'y a **aucune étiquette "inconnu"** pendant l'entraînement, la cibl
     2. La branche de l'Objectness ($p^{unk}_{obj}$) est donc mathématiquement verrouillée à $0$ par la géométrie.
     3. Le seul moyen pour que le modèle ait prédit un inconnu ici est que le biais $b_{obj}$ soit trop agressif ou que le logit brut $z^{unk}$ ait drifté.
 - **Résultat sur EUMix :** La Focal Loss applique une pénalité directe sur le canal inconnu. Ne pouvant pas modifier l'Objectness (qui est déjà à 0), l'optimiseur n'a pas d'autre choix que d'envoyer un **gradient négatif direct sur $b_{obj}$** pour le diminuer, et ajuste $\alpha$ pour réduire la sensibilité globale du classifieur dans le vide. Cela empêche le modèle de voir des inconnus partout.
-    
 
 ### 🔵 Cas 3 : Un objet de classe connue est correctement détecté (Vrai Positif connu)
 

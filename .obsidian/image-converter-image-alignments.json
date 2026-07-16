@@ -2177,6 +2177,12 @@
       "width": "",
       "height": "",
       "wrap": false
+    },
+    "649c83d6a33ae40549ee7bc3fdd77f72": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
     }
   },
   "DETR/sous note/Focal loss.md": {
@@ -2611,6 +2617,12 @@
       "width": "",
       "height": "",
       "wrap": false
+    },
+    "a6bbe0d5dd42c5f81683e4699780a366": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
     }
   },
   "domain adaptation/pieces_jointes/EW-DETR-figure1.webp": {
@@ -2627,6 +2639,12 @@
       "wrap": false
     },
     "89bba558c2938af3c598defcbb9f88d9": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
+    },
+    "759d434a8e1fdd0d3d5a81853c35bd69": {
       "position": "center",
       "width": "",
       "height": "",
@@ -2653,6 +2671,12 @@
       "wrap": false
     },
     "8c67cf89dcd885ea1899755d54b3fdf2": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
+    },
+    "728dc345b1b3562de41d79ff6c4bd577": {
       "position": "center",
       "width": "",
       "height": "",
@@ -2717,6 +2741,44 @@
       "wrap": false
     },
     "87a8f8d7d4a0a48739d95b87b1b68b4d": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
+    },
+    "98bd0d034efcae0b408c98b55abbb30a": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
+    },
+    "1b498549681ebef191acec55ba6cea21": {
+      "position": "center",
+      "width": "700px",
+      "height": "297px",
+      "wrap": false
+    },
+    "7203739dc10304b644bb438a62661e7a": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
+    }
+  },
+  "domain adaptation/learning Domain Adaptive object Detection with Probabilist teacher.md": {
+    "b4f876a8866c3ea0ebf5d1261a57c2d6": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
+    },
+    "d7fee0efa763e359a6f76352cb03513e": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
+    },
+    "24d5b8fa0a511fc2d483a24ac902e507": {
       "position": "center",
       "width": "",
       "height": "",

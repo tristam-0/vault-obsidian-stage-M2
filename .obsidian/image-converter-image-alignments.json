@@ -531,6 +531,18 @@
       "width": "",
       "height": "",
       "wrap": false
+    },
+    "ff5a2a35bd201930c975462d9c5c8f83": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
+    },
+    "c7238131825ae4272cf374c33cd637c4": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
     }
   },
   "Transformeur/transformer vision.md": {
@@ -673,6 +685,12 @@
       "wrap": false
     },
     "37cb4fc1f408603c397e008295462692": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
+    },
+    "bbc779b7006e720fbdd4498339c45b6d": {
       "position": "center",
       "width": "",
       "height": "",
@@ -2153,6 +2171,12 @@
       "width": "",
       "height": "",
       "wrap": false
+    },
+    "ecb65efbf04f1948efb1c9efeb6c60ba": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
     }
   },
   "DETR/sous note/Focal loss.md": {
@@ -2377,6 +2401,12 @@
       "width": "",
       "height": "",
       "wrap": false
+    },
+    "d10dc65c2df6522ec4eec2adbf8909c5": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
     }
   },
   "test idée enlevais softmax.md": {
@@ -2487,6 +2517,18 @@
       "wrap": false
     },
     "4e28464996b4db4c4ddf9a22d647898f": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
+    },
+    "075a90271e1e59066b450727d0a9066a": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
+    },
+    "b23d1c744bf5c437cd3ffe0728771342": {
       "position": "center",
       "width": "",
       "height": "",
@@ -2653,6 +2695,28 @@
       "wrap": false
     },
     "9559e095d5b3063fa87423c487bd65f2": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
+    }
+  },
+  "domain adaptation/pieces_jointes/Differential Alignment for Domain Adaptive Object Detection-figure_2.webp": {
+    "65d4a008e18cfa148916ddac6944f089": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
+    }
+  },
+  "domain adaptation/Differential Alignment for Domain Adaptive Object Detection.md": {
+    "d51f09ef0e146e6a56a87e607243df20": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
+    },
+    "87a8f8d7d4a0a48739d95b87b1b68b4d": {
       "position": "center",
       "width": "",
       "height": "",

@@ -1,37 +1,50 @@
-
 ## 1. Vue d'Ensemble & Flux de Données (Architecture Teacher-Student)
-
 Le framework **Probabilistic Teacher (PT)** résout le problème du transfert de domaine sans supervision (_Unsupervised Domain Adaptation - UDA_) pour la détection d'objets.
 
 Les approches de _Self-Training_ classiques filtrent les pseudo-boîtes cibles à l'aide d'un **seuil de confiance rigide** (ex. $p > 0.8$). Cela pose deux problèmes majeurs :
 
 1. **Dépendance au seuil :** Pas de jeu de validation annoté dans le domaine cible pour régler ce hyperparamètre.
-    
 2. **Ignorance de l'incertitude de localisation :** Une boîte peut avoir une confiance de classe élevée mais des coordonnées très imprécises.
-    
 
 PT propose un framework **sans seuil** (_threshold-free_) qui capture l'**incertitude de classification et de localisation** sous forme de distributions de probabilité.
 
-## 2. Adaptation de la Localisation & Pertes Bounding Box (`lost bbox`)
+## 2. Adaptation de la Localisation & Pertes Bounding Box ($\mathcal{L}_{bbox}$)
 
-### Problème dans les détecteurs standards
+### Problème dans les Détecteurs Standards
 
-Dans un détecteur classique , la tête de régression prédit un vecteur déterministe pour chaque boîte :
+Dans un détecteur classique, la tête de régression prédit un vecteur déterministe pour chaque boîte :
 $$\mathbf{b} = [x, y, w, h]$$
-Cette approche ne permet pas d'évaluer si le modèle hésite sur les limites précises d'un objet flou ou dégradé dans le domaine cible.
-### Solution Probabiliste
+Cette approche ne permet pas d'évaluer si le modèle hésite sur les limites précises d'un objet flou, tronqué ou dégradé dans le domaine cible.
+### Solution Probabiliste au Niveau de la Boîte
 
-Dans PT, la tête de régression est modifiée pour prédire une **distribution gaussienne** indépendante pour chaque coordonnée $k \in \{x, y, w, h\}$ :
+Dans Probabilistic Teacher (PT), la tête de régression prédit une **distribution Gaussienne indépendante** pour chaque coordonnée $k \in \{x, y, w, h\}$ :
+$$b_k \sim \mathcal{N}\left(\mu_k, \sigma_k^2\right)$$
+La densité de probabilité associée s'écrit mathématiquement :
 $$p(b_k) = \mathcal{N}\left(b_k; \mu_k, \sigma_k^2\right) = \frac{1}{\sqrt{2\pi\sigma_k^2}} \exp\left( -\frac{(b_k - \mu_k)^2}{2\sigma_k^2} \right)$$
-- $\mu_k$ est la position prédite de la boîte.
-- $\sigma_k^2$ est la **variance de localisation**, représentant l'**incertitude** du modèle sur cette coordonnée.
-### Perte de Régression / Localisation Cible ($\mathcal{L}_{loc}^{target}$)
-Plutôt qu'une perte $L_1$ ou Smooth $L_1$ déterministe, la perte entre la prédiction du Student $(\mu_S, \sigma_S^2)$ et le pseudo-label du Teacher $(\mu_T, \sigma_T^2)$ s'appuie sur la **Negative Log-Likelihood (NLL)** ou la **Divergence KL** :
-$$\mathcal{L}_{loc}^{target} = \frac{1}{N_p} \sum_{i=1}^{N_p} \sum_{k \in \{x, y, w, h\}} \left( \frac{\left\vert{}\mu_{i,k}^S - \mu_{i,k}^T\right\vert{}}{2 \left(\sigma_{i,k}^S\right)^2} + \frac{1}{2} \log\left(\left(\sigma_{i,k}^S\right)^2\right) \right)$$
-### Signification Intuitives & Physiques
-1. Si l'incertitude du Student $(\sigma_S^2)$ est très élevée, le premier terme $\frac{\vert{}\mu_S - \mu_T\vert{}}{2\sigma_S^2}$ est atténué : le gradient de l'erreur d'alignement ne détruit pas les poids du réseau.
-2. Le second terme $\frac{1}{2} \log(\sigma_S^2)$ agit comme un régulariseur empêchant $\sigma_S^2 \to \infty$.
-3. Le Student apprend ainsi à **ajuster dynamiquement son incertitude** selon la cohérence des prédictions du Teacher.
+- **$\mu_k$ (Moyenne) :** La coordonnée spatiale prédite pour la boîte.
+- **$\sigma_k^2$ (Variance) :** L'incertitude estimée par le réseau sur cette coordonnée.
+- **Contrainte de domaine :** Pour éviter les instabilités numériques ($\sigma^2 \to 0$ ou $\sigma^2 \to \infty$), la valeur de $\sigma_k^2$ est strictement contrainte dans l'intervalle $]0, 1[$ via une activation **Sigmoïde** appliquée sur la sortie brute du réseau :$$\sigma_k^2 = \text{sigmoid}(s_k)$$
+
+### Formulation Générale de la Perte ($\mathcal{L}_{bbox}$ - Équation 1 du Papier)
+
+Au lieu d'utiliser une perte déterministe type $L_1$ ou Smooth $L_1$, PT formalise la régression comme le calcul de la **Cross-Entropie** $\mathcal{H}$ entre :
+1. La distribution Ground-Truth / Pseudo-label $t_i^{GT}$, représentée par une **impulsion de Dirac** $\delta(t - t_i^{GT})$ (probabilité maximale en $t_i^{GT}$).
+2. La distribution Gaussienne $t_i \sim \mathcal{N}(\mu_i, \sigma_i^2)$ prédite par le réseau.
+
+$$\mathcal{L}_{bbox} = \frac{1}{N_{bbox}} \sum_{i} \mathbb{I}_{fg}(t_i) \mathcal{H}\left(t_i^{GT}, t_i\right) = -\frac{1}{N_{bbox}} \sum_{i} \mathbb{I}_{fg}(t_i) \log\left( \mathcal{N}\left(t_i^{GT}; \mu_i, \sigma_i^2\right) \right)$$
+Où :
+- $N_{bbox}$ est le nombre total de candidats (ancres ou propositions).
+- $\mathbb{I}_{fg}(t_i)$ est une fonction indicatrice valant $1$ si la boîte $i$ est associée à un objet de premier plan (_foreground_), et $0$ s'il s'agit du fond (_background_).
+
+#### Forme Opérationnelle (Negative Log-Likelihood - NLL)
+En développant le logarithme négatif $-\log(\mathcal{N})$ et en éliminant les constantes de dérivation, la perte codée en pratique pour le domaine source (ou pour le domaine cible avec le Teacher $\mu_T, \sigma_T^2$) prend la forme :
+
+$$\mathcal{L}_{bbox} = \frac{1}{N_{bbox}} \sum_{i=1}^{N_{bbox}} \mathbb{I}_{fg}(t_i) \sum_{k \in \{x, y, w, h\}} \left( \frac{\left\vert{}\mu_{i,k}^S - t_{i,k}^{GT}\right\vert{}}{2 \left(\sigma_{i,k}^S\right)^2} + \frac{1}{2} \log\left(\left(\sigma_{i,k}^S\right)^2\right) \right)$$
+### Application Concrète dans l'Article (Two-Stage Detector / Faster R-CNN)
+Puisque le papier s'appuie sur une architecture à deux étapes (Faster R-CNN), la perte générale $\mathcal{L}_{bbox}$ est instanciée **deux fois** à chaque itération d'entraînement :
+$$\mathcal{L}_{bbox}^{total} = \mathcal{L}_{reg}^{rpn} + \mathcal{L}_{reg}^{roi}$$
+1. **Au niveau du RPN ($\mathcal{L}_{reg}^{rpn}$) :** $N_{bbox}$ représente le nombre d'**ancres**. Le réseau apprend à prédire l'incertitude sur les _offsets_ initiaux par rapport aux ancres de référence.
+2. **Au niveau de la RoI-Head ($\mathcal{L}_{reg}^{roi}$) :** $N_{bbox}$ représente le nombre de **propositions d'objets (Proposals)**. Le réseau ajuste finement les coordonnées finales et leur variance associée.
 ## 3. Adaptation de la Classification & Entropy Focal Loss (`entropy focal loss` / `lost clasification`)
 
 ### Mesure de l'Incertitude par l'Entropie
@@ -47,9 +60,7 @@ Afin de borner cette valeur entre $0$ et $1$, elle est normalisée par l'entropi
 $$\hat{H}_i = \frac{H(\mathbf{p}_i^T)}{\log(C)} \in [0, 1]$$
 
 - Si $\hat{H}_i \to 0$ : Le Teacher est extrêmement confiant dans une classe (Incertitude nulle).
-    
 - Si $\hat{H}_i \to 1$ : La distribution est uniforme / ambiguë (Incertitude maximale).
-    
 
 ### Formule Formelle de l'Entropy Focal Loss (EFL)
 
@@ -60,42 +71,27 @@ $$\mathcal{L}_{cls}^{target} = -\frac{1}{N_p} \sum_{i=1}^{N_p} \left( 1 - \hat{H
 où :
 
 - $p_{i,c}^T$ est le pseudo-label de probabilité généré par le Teacher (souvent affiné par un _Sharpening_ / adoucissement de température).
-    
 - $p_{i,c}^S$ est la probabilité prédite par le Student sur l'image fortement augmentée.
-    
 - $\gamma \ge 0$ est le paramètre de focalisation (_focusing parameter_, par exemple $\gamma = 2$).
-    
 - $(1 - \hat{H}_i)^\gamma$ est le **facteur de modulation basé sur l'entropie**.
-    
 
 ### Pourquoi cette formule est construite ainsi ?
 
 - **Remplacement du seuil rigide :** Au lieu de rejeter brutalement un pseudo-label si $p < 0.8$, l'EFL pondère **continûment** chaque échantillon.
-    
 - **Comportement dynamique :**
-    
     - Si le Teacher est sûr ($\hat{H}_i \approx 0$), le poids $(1 - 0)^\gamma = 1$ : la perte s'applique pleinement.
-        
     - Si le Teacher hésite ($\hat{H}_i \approx 1$), le poids $(1 - 1)^\gamma = 0$ : l'échantillon incertain est ignoré par le gradient du Student.
-        
 
 ## 4. Anchor Adaptation (`anchor adaptation`)
 
 ### Qu'est-ce que c'est et où l'utiliser ?
-
 - **Domaine d'application :** Uniquement dans les détecteurs **basés sur des ancres** (Anchor-based) tels que Faster R-CNN (Region Proposal Network - RPN) ou RetinaNet.
-    
 - **Problème résolu :** Les ancres par défaut (tailles/ratios d'aspect) sont définies manuellement sur le domaine source. Lors d'un changement de domaine (ex. images de synthèse vers images réelles en grand angle), la distribution géométrique des objets change radicalement.
-    
-
 ### Mécanisme
 
 Puisque l'ancre peut être vue comme un paramètre apprenable ou ajustable :
-
 1. PT enregistre les statistiques des boîtes cibles prédites par le Teacher au cours de l'entraînement.
-    
 2. Les tailles/ratios des ancres du Student/Teacher sont mis à jour progressivement (via K-Means ou mise à jour adaptative par moyenne glissante) pour s'aligner sur la distribution géométrique du domaine cible.
-    
 
 ## 5. Augmentations de Données : Faibles vs Fortes (`weak` vs `strong augmentation`)
 
@@ -119,9 +115,7 @@ DETR est un détecteur **sans ancres** (_anchor-free_), basé sur un jeu de $N$ 
 - **Adaptation pour DETR :** L'Anchor Adaptation n'a pas lieu d'être sous sa forme RPN. En revanche, on met en place une **Query Adaptation** :
     
     - Les _Object Queries_ capturent des prioris de position et d'échelle.
-        
     - On adapte les requêtes spatiales (_Positional Queries_) en injectant des prototypes de requêtes mis à jour par le domaine cible (méthode type **DA-DETR** ou **EW-DETR**).
-        
 
 ### 2. Tête de Bounding Box Probabiliste dans DETR
 

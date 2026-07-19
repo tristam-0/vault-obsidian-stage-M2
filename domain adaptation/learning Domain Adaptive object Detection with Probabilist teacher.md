@@ -1,7 +1,7 @@
 ## 1. Vue d'Ensemble & Flux de Données (Architecture Teacher-Student)
 Le framework **Probabilistic Teacher (PT)** résout le problème du transfert de domaine sans supervision (_Unsupervised Domain Adaptation - UDA_) pour la détection d'objets.
 
-Les approches de _Self-Training_ classiques filtrent les pseudo-boîtes cibles à l'aide d'un **seuil de confiance rigide** (ex. $p > 0.8$). Cela pose deux problèmes majeurs :
+Les approches de _Self-Training_ classiques filtrent les pseudo-boîtes cibles à l'aide d'un **seuil de confiance rigide** (ex. $p > 0.8$). Cela pose deux problèmes :
 
 1. **Dépendance au seuil :** Pas de jeu de validation annoté dans le domaine cible pour régler ce hyperparamètre.
 2. **Ignorance de l'incertitude de localisation :** Une boîte peut avoir une confiance de classe élevée mais des coordonnées très imprécises.
@@ -10,153 +10,118 @@ PT propose un framework **sans seuil** (_threshold-free_) qui capture l'**incert
 
 ## 2. Adaptation de la Localisation & Pertes Bounding Box ($\mathcal{L}_{bbox}$)
 
-### Problème dans les Détecteurs Standards
-
-Dans un détecteur classique, la tête de régression prédit un vecteur déterministe pour chaque boîte :
-$$\mathbf{b} = [x, y, w, h]$$
-Cette approche ne permet pas d'évaluer si le modèle hésite sur les limites précises d'un objet flou, tronqué ou dégradé dans le domaine cible.
-### Solution Probabiliste au Niveau de la Boîte
-
-Dans Probabilistic Teacher (PT), la tête de régression prédit une **distribution Gaussienne indépendante** pour chaque coordonnée $k \in \{x, y, w, h\}$ :
+### 2.1 Solution Probabiliste au Niveau de la Boîte
+Au lieu de prédire un vecteur déterministe $\mathbf{b} = [x, y, w, h]$, la tête de régression prédit une **distribution Gaussienne indépendante** pour chaque coordonnée $k \in \{x, y, w, h\}$ :
 $$b_k \sim \mathcal{N}\left(\mu_k, \sigma_k^2\right)$$
-La densité de probabilité associée s'écrit mathématiquement :
 $$p(b_k) = \mathcal{N}\left(b_k; \mu_k, \sigma_k^2\right) = \frac{1}{\sqrt{2\pi\sigma_k^2}} \exp\left( -\frac{(b_k - \mu_k)^2}{2\sigma_k^2} \right)$$
-- **$\mu_k$ (Moyenne) :** La coordonnée spatiale prédite pour la boîte.
-- **$\sigma_k^2$ (Variance) :** L'incertitude estimée par le réseau sur cette coordonnée.
-- **Contrainte de domaine :** Pour éviter les instabilités numériques ($\sigma^2 \to 0$ ou $\sigma^2 \to \infty$), la valeur de $\sigma_k^2$ est strictement contrainte dans l'intervalle $]0, 1[$ via une activation **Sigmoïde** appliquée sur la sortie brute du réseau :$$\sigma_k^2 = \text{sigmoid}(s_k)$$
-
-### Formulation Générale de la Perte ($\mathcal{L}_{bbox}$ - Équation 1 du Papier)
-
-Au lieu d'utiliser une perte déterministe type $L_1$ ou Smooth $L_1$, PT formalise la régression comme le calcul de la **Cross-Entropie** $\mathcal{H}$ entre :
-1. La distribution Ground-Truth / Pseudo-label $t_i^{GT}$, représentée par une **impulsion de Dirac** $\delta(t - t_i^{GT})$ (probabilité maximale en $t_i^{GT}$).
-2. La distribution Gaussienne $t_i \sim \mathcal{N}(\mu_i, \sigma_i^2)$ prédite par le réseau.
-
+- **$\mu_k$ (Moyenne) :** La coordonnée spatiale prédite.
+- **$\sigma_k^2$ (Variance) :** L'incertitude estimée par le réseau.
+- **Contrainte de domaine :** La variance $\sigma_k^2$ est contrainte dans $]0, 1[$ via une activation Sigmoïde appliquée sur la sortie brute du réseau :$$\sigma_k^2 = \text{sigmoid}(s_k)$$
+### 2.2 Formulation Générale de la Perte ($\mathcal{L}_{bbox}$ - Équation 1)
+La régression est formalisée comme la **Cross-Entropie** $\mathcal{H}$ entre la distribution cible (Dirac en $t_i^{GT}$) et la Gaussienne prédite $t_i \sim \mathcal{N}(\mu_i, \sigma_i^2)$ :
 $$\mathcal{L}_{bbox} = \frac{1}{N_{bbox}} \sum_{i} \mathbb{I}_{fg}(t_i) \mathcal{H}\left(t_i^{GT}, t_i\right) = -\frac{1}{N_{bbox}} \sum_{i} \mathbb{I}_{fg}(t_i) \log\left( \mathcal{N}\left(t_i^{GT}; \mu_i, \sigma_i^2\right) \right)$$
-Où :
-- $N_{bbox}$ est le nombre total de candidats (ancres ou propositions).
-- $\mathbb{I}_{fg}(t_i)$ est une fonction indicatrice valant $1$ si la boîte $i$ est associée à un objet de premier plan (_foreground_), et $0$ s'il s'agit du fond (_background_).
+En développant le logarithme de la densité Gaussienne, on obtient l'expression intuitive de la perte de vraisemblance négative (_Negative Log-Likelihood - NLL_) :
+$$\mathcal{L}_{bbox} = \frac{1}{N_{bbox}} \sum_{i} \mathbb{I}_{fg}(t_i) \left[ \frac{(t_i^{GT} - \mu_i)^2}{2\sigma_i^2} + \frac{1}{2}\log(\sigma_i^2) + \frac{1}{2}\log(2\pi) \right]$$
+> **Analyse physique de l'équation :**
+> - Le premier terme $\frac{(t_i^{GT} - \mu_i)^2}{2\sigma_i^2}$ pondère l'erreur quadratique par l'inverse de la variance. Si l'incertitude $\sigma_i^2$ est grande, l'impact d'une erreur d'alignement est atténué.
+> - Le second terme $\frac{1}{2}\log(\sigma_i^2)$ agit comme une **pénalité de régularisation** : il empêche le réseau de prédire systématiquement une variance infinie pour annuler la perte.
 
-#### Forme Opérationnelle (Negative Log-Likelihood - NLL)
-En développant le logarithme négatif $-\log(\mathcal{N})$ et en éliminant les constantes de dérivation, la perte codée en pratique pour le domaine source (ou pour le domaine cible avec le Teacher $\mu_T, \sigma_T^2$) prend la forme :
+### Adaptation sur le Domaine Cible ($\mathcal{L}_{T-box}$ - Équation 6)
+Pour le domaine cible non annoté, la cible de régression devient la distribution pseudo-label $t_i^{PL}$ issue du Teacher sur l'image faiblement augmentée ($x_{t,w}$), affûtée par la fonction $S_{bbox}$ :
+$$\mathcal{L}_{T-box} = \frac{1}{N_{bbox}} \sum_{i} \mathbb{I}_{fg}(t_i) \mathcal{H}\left( S_{bbox}\left(t_i^{PL}, \tau_{bbox}\right), t_i \right)$$
+Pour la régression des boîtes, l'entropie d'une distribution Gaussienne ne dépend que de sa variance $\sigma^2$ (plus la variance est grande, plus l'incertitude/entropie est grande).
 
-$$\mathcal{L}_{bbox} = \frac{1}{N_{bbox}} \sum_{i=1}^{N_{bbox}} \mathbb{I}_{fg}(t_i) \sum_{k \in \{x, y, w, h\}} \left( \frac{\left\vert{}\mu_{i,k}^S - t_{i,k}^{GT}\right\vert{}}{2 \left(\sigma_{i,k}^S\right)^2} + \frac{1}{2} \log\left(\left(\sigma_{i,k}^S\right)^2\right) \right)$$
-### Application Concrète dans l'Article (Two-Stage Detector / Faster R-CNN)
-Puisque le papier s'appuie sur une architecture à deux étapes (Faster R-CNN), la perte générale $\mathcal{L}_{bbox}$ est instanciée **deux fois** à chaque itération d'entraînement :
-$$\mathcal{L}_{bbox}^{total} = \mathcal{L}_{reg}^{rpn} + \mathcal{L}_{reg}^{roi}$$
-1. **Au niveau du RPN ($\mathcal{L}_{reg}^{rpn}$) :** $N_{bbox}$ représente le nombre d'**ancres**. Le réseau apprend à prédire l'incertitude sur les _offsets_ initiaux par rapport aux ancres de référence.
-2. **Au niveau de la RoI-Head ($\mathcal{L}_{reg}^{roi}$) :** $N_{bbox}$ représente le nombre de **propositions d'objets (Proposals)**. Le réseau ajuste finement les coordonnées finales et leur variance associée.
-## 3. Adaptation de la Classification & Entropy Focal Loss (`entropy focal loss` / `lost clasification`)
+Pour "affûter" la prédiction de la boîte de détection du Teacher, on n'a pas de SoftMax. La fonction $S_{bbox}$ consiste simplement à réduire artificiellement la variance prédite en la multipliant par une température $\tau_{bbox} < 1$ :
 
-### Mesure de l'Incertitude par l'Entropie
+$$\sigma^2 \leftarrow \sigma^2 * \tau_{bbox}$$
 
-Pour la branche classification, la prédiction du Teacher pour une boîte $i$ est un vecteur de probabilités $\mathbf{p}_i^T = [p_{i,1}^T, p_{i,2}^T, \dots, p_{i,C}^T]$ sur $C$ classes.
+**Comment ça marche physiquement ?**
+- Le Teacher prédit une coordonnée avec une certaine incertitude $\sigma^2$.
+- En multipliant cette variance par un facteur inférieur à $1$ (ex: $0.5$), on "écrase" la courbe de Gauss. La cloche devient beaucoup plus étroite et pointue autour de la moyenne $\mu$.
+- On force ainsi le Teacher à générer un pseudo-label de localisation avec une "fausse" confiance accrue, ce qui donne une cible plus nette et moins ambiguë (low-entropy) pour entraîner le Student.
+## 3. Adaptation de la Classification ($\mathcal{L}_{T-cls}$) & Entropy Focal Loss (EFL)
 
-L'incertitude de classification est mesurée par l'**entropie de Shannon** :
+Dans une architecture à deux étapes (Faster R-CNN), la classification non supervisée sur le domaine cible s'effectue à la fois au niveau du **RPN** et de la **RoI-Head**.
 
-$$H(\mathbf{p}_i^T) = -\sum_{c=1}^{C} p_{i,c}^T \log\left(p_{i,c}^T\right)$$
+### 3.1 Pertes de Classification Target ($\mathcal{L}_{T-cls}^{RPN}$ et $\mathcal{L}_{T-cls}^{ROI}$ — Équation 5 du Papier)
+La perte d'adaptation de classification $\mathcal{L}_{T-cls}$ se décompose en deux termes de Cross-Entropie $\mathcal{H}$ calculés entre les prédictions du Teacher (sur l'image cible $x_{t,w}$) et du Student (sur l'image cible $x_{t,s}$) :
+$$\mathcal{L}_{T-cls}^{RPN} = \frac{1}{N_{cls}^{RPN}} \sum_{i} \mathcal{H}\left( M\left(S_{cls}\left(p_i^{PL}, \tau_{cls}\right)\right), \, p_i^{RPN} \right)$$
+$$\mathcal{L}_{T-cls}^{ROI} = \frac{1}{N_{cls}^{ROI}} \sum_{i} \mathcal{H}\left( S_{cls}\left(p_i^{PL}, \tau_{cls}\right), \, p_i^{ROI} \right)$$
+#### Définition des variables :
+- **$p_i^{PL}$ :** La distribution de probabilité de classification prédite par le Teacher pour la $i$-ème proposition.
+- **$p_i^{RPN}$ et $p_i^{ROI}$ :** Les distributions de probabilité de classification prédites respectivement par le RPN et la RoI-Head du Student.
+- **$S_{cls}(\cdot, \tau_{cls})$ :** La fonction d'affûtage (_Sharpening Function_) avec le facteur de température $\tau_{cls}$.
+- **$M(\cdot)$ (Merging Operation) :** Une opération de fusion qui additionne toutes les probabilités des classes de premier plan (_foreground_) afin d'obtenir une distribution binaire premier-plan / arrière-plan ($fg/bg$) nécessaire au guidage du RPN.
+- **$N_{cls}^{RPN}$ et $N_{cls}^{ROI}$ :** Les tailles de batch (nombre de candidats) dans le RPN et la RoI-Head.
+## L'affûtage de la Classification ($S_{cls}$ - Équation 7)
 
-Afin de borner cette valeur entre $0$ et $1$, elle est normalisée par l'entropie maximale $\log(C)$ :
+Au lieu de modifier les probabilités après coup, l'article applique une **température** directement dans la fonction SoftMax du Teacher.
+Si $z_i$ est le "logit" (le score brut) pour la classe $i$, le SoftMax avec température $\tau_{cls}$ est :
+$$S_{cls}(\mathbf{z}, \tau_{cls}) = SoftMax(.,\tau_{cls)=}) \frac{\exp(z_i / \tau_{cls})}{\sum_j \exp(z_j / \tau_{cls})}$$
+**Comment ça marche physiquement ?**
+L'article précise qu'ils fixent $\tau < 1$ (par exemple $\tau = 0.5$).
+- Diviser les logits par $0.5$ revient à les multiplier par $2$.
+- Les écarts entre le logit dominant et les autres sont amplifiés de manière exponentielle.
+- Résultat : la probabilité de la classe dominante se rapproche de $1$ (Dirac), et celle des autres se rapproche de $0$. L'entropie (l'incertitude) chute drastiquement.
+### 3.2 Formulation Générale de l'Entropy Focal Loss (EFL — Équation 11)
 
-$$\hat{H}_i = \frac{H(\mathbf{p}_i^T)}{\log(C)} \in [0, 1]$$
+Bien que l'affûtage réduise l'entropie des prédictions, les pseudo-boîtes cibles contiennent inévitablement du bruit sous _domain shift_. PT introduit l'**Entropy Focal Loss (EFL)** pour pondérer par l'incertitude :
 
-- Si $\hat{H}_i \to 0$ : Le Teacher est extrêmement confiant dans une classe (Incertitude nulle).
-- Si $\hat{H}_i \to 1$ : La distribution est uniforme / ambiguë (Incertitude maximale).
+$$\mathcal{H}_{EFL}(\cdot, \cdot) = \left( 1 - \frac{E}{E_{norm}} \right)^\lambda \mathcal{H}(\cdot, \cdot)$$
 
-### Formule Formelle de l'Entropy Focal Loss (EFL)
+#### Définition des variables :
 
-L'**Entropy Focal Loss (EFL)** module la perte de Cross-Entropie de consistance en fonction du niveau de certitude du Teacher :
+- **$\mathcal{H}(\cdot, \cdot)$ :** La perte de Cross-Entropie de base (définie à l'Équation 5 pour la classification ou à l'Équation 1 pour la régression).
+- **$\lambda$ :** Un hyperparamètre de focalisation (analogue au $\gamma$ de la Focal Loss standard).
+- **$E$ :** L'entropie de la prédiction du Teacher sur la cible (mesurant l'incertitude de la classe ou des coordonnées).
+- **$E_{norm}$ :** Le terme de normalisation correspondant à l'**entropie maximale théorique** :
+    - **Pour la classification ($E_{norm}^{cls}$) :** $E_{norm} = \log(n + 1)$, où $n$ est le nombre de classes de premier plan (avec $+1$ pour la classe _background_).
+    - **Pour la localisation/régression ($E_{norm}^{box}$) :** $E_{norm} = \frac{1}{2}\log(2\pi) + \frac{1}{2}$ (dérivé de l'entropie d'une distribution Gaussienne univariée).
+### 3.3 Signification Intuitive de l'EFL
 
-$$\mathcal{L}_{cls}^{target} = -\frac{1}{N_p} \sum_{i=1}^{N_p} \left( 1 - \hat{H}_i \right)^\gamma \sum_{c=1}^{C} p_{i,c}^T \log\left(p_{i,c}^S\right)$$
+Au lieu d'un filtrage binaire par seuil ($p > \text{threshold}$), l'EFL module de manière continue la contribution de chaque proposition :
+- **Faible incertitude ($E \to 0$) :**$$\left( 1 - \frac{E}{E_{norm}} \right)^\lambda \to 1$$
+    La prédiction du Teacher est très sûre : la perte $\mathcal{H}$ s'applique à plein régime pour entraîner le Student.
+- **Forte incertitude ($E \to E_{norm}$) :**
+    $$\left( 1 - \frac{E}{E_{norm}} \right)^\lambda \to 0$$
+    La prédiction du Teacher est très bruitée / indécise : le poids tend vers $0$, ce qui empêche les fausses détections ou boîtes mal alignées de perturber le Student.
 
-où :
 
-- $p_{i,c}^T$ est le pseudo-label de probabilité généré par le Teacher (souvent affiné par un _Sharpening_ / adoucissement de température).
-- $p_{i,c}^S$ est la probabilité prédite par le Student sur l'image fortement augmentée.
-- $\gamma \ge 0$ est le paramètre de focalisation (_focusing parameter_, par exemple $\gamma = 2$).
-- $(1 - \hat{H}_i)^\gamma$ est le **facteur de modulation basé sur l'entropie**.
+## 4. Augmentation Forte & Alignement Intra-Domaine (_Intra-Domain Alignment_)
+![[learning Domain Adaptive object Detection with Probabilist teacher-1784298004541.webp]]
+Dans la section 5, les auteurs mettent en lumière un problème souvent négligé dans la littérature de l'UDA-OD (_Unsupervised Domain Adaptation for Object Detection_) : l'**Intra-Domain Gap**.
 
-### Pourquoi cette formule est construite ainsi ?
+### 4.1. Le Phénomène d'Intra-Domain Gap (Section 5.1)
 
-- **Remplacement du seuil rigide :** Au lieu de rejeter brutalement un pseudo-label si $p < 0.8$, l'EFL pondère **continûment** chaque échantillon.
-- **Comportement dynamique :**
-    - Si le Teacher est sûr ($\hat{H}_i \approx 0$), le poids $(1 - 0)^\gamma = 1$ : la perte s'applique pleinement.
-    - Si le Teacher hésite ($\hat{H}_i \approx 1$), le poids $(1 - 1)^\gamma = 0$ : l'échantillon incertain est ignoré par le gradient du Student.
+Les travaux classiques d'UDA se focalisent sur l'**Inter-Domain Gap** (le décalage global de distribution entre le domaine Source $A$ et le domaine Cible $B$, par exemple temps clair vs brouillard).
 
-## 4. Anchor Adaptation (`anchor adaptation`)
+Cependant, en analysant les Vrais Positifs (TP) et Faux Négatifs (FN) prédits sur le domaine cible, les auteurs observent une **forte disparité de performance au sein même du domaine cible** :
 
-### Qu'est-ce que c'est et où l'utiliser ?
-- **Domaine d'application :** Uniquement dans les détecteurs **basés sur des ancres** (Anchor-based) tels que Faster R-CNN (Region Proposal Network - RPN) ou RetinaNet.
-- **Problème résolu :** Les ancres par défaut (tailles/ratios d'aspect) sont définies manuellement sur le domaine source. Lors d'un changement de domaine (ex. images de synthèse vers images réelles en grand angle), la distribution géométrique des objets change radicalement.
-### Mécanisme
+- **Objets faciles :** Les grands objets bien visibles conservent de bonnes prédictions.
+- **Objets difficiles :** Les objets petits, très flous ou partiellement occultés (_occluded_) subissent une dégradation massive des performances.
 
-Puisque l'ancre peut être vue comme un paramètre apprenable ou ajustable :
-1. PT enregistre les statistiques des boîtes cibles prédites par le Teacher au cours de l'entraînement.
-2. Les tailles/ratios des ancres du Student/Teacher sont mis à jour progressivement (via K-Means ou mise à jour adaptative par moyenne glissante) pour s'aligner sur la distribution géométrique du domaine cible.
+> **Définition (Intra-Domain Gap) :** L'écart de difficulté d'adaptation qui existe _à l'intérieur_ du domaine cible entre les objets clairs/volumineux et les objets petits/flous/occultés.
 
-## 5. Augmentations de Données : Faibles vs Fortes (`weak` vs `strong augmentation`)
+### 4.2. Alignement Intra-Domaine via Augmentation Forte (Section 5.2)
 
-L'entraînement par consistance repose sur une **asymétrie d'augmentation** entre le Teacher et le Student.
+Pour combler cet _intra-domain gap_ sans ajouter de sous-réseau complexe, PT exploite l'**augmentation de données forte** (_Strong Data Augmentation_) comme stratégie d'alignement implicite.
 
-|**Propriété**|**Weak Augmentation (Teacher)**|**Strong Augmentation (Student)**|
-|---|---|---|
-|**Rôle**|Générer des pseudo-labels stables et de haute qualité.|Forcer le Student à apprendre des représentations invariantes et robustes.|
-|**Transformations géométriques**|Flipping horizontal aléatoire, redimensionnement simple.|Identiques au Teacher (pour aligner les coordonnées spatiales).|
-|**Transformations d'apparence**|Aucune (ou très légères).|Color Jitter (Luminosité, Constraste), Grayscale, Gaussian Blur, CutMix / Random Erasing.|
-|**Où l'appliquer dans le code ?**|Appliqué à l'image cible $x^t \to x^{t,w}$ injectée dans le **Teacher**.|Appliqué à la même image cible $x^t \to x^{t,s}$ injectée dans le **Student**.|
+![[learning Domain Adaptive object Detection with Probabilist teacher-1784298192421.webp|chéma de fonctionement]]
 
-## 6. Adaptation de la Méthode à une Architecture de type DETR (Transformer)
+#### Mécanisme pas à pas :
 
-L'utilisateur souhaite adapter la philosophie de PT à une architecture de type **DETR / Deformable-DETR**. Voici les ponts méthodologiques nécessaires :
+1. **Génération par le Teacher :** Sur l'image cible faiblement augmentée ($x_{t,w}$), le Teacher prédit des pseudo-labels avec une **faible entropie** (haute confiance) sur les objets faciles.
+2. **Transformation pour le Student :** L'image transmise au Student ($x_{t,s}$) subit des augmentations fortes (_random resizing_, flou gaussien, _color jitter_). Ces transformations dégradent artificiellement les objets faciles pour qu'ils ressemblent aux objets difficiles (petits, flous ou occultés).
+3. **Guidage & Alignement :** Le Student est forcé d'apprendre des représentations robustes sur ces versions dégradées, guidé par les pseudo-labels fiables du Teacher.
 
-### 1. Remplacement d'Anchor Adaptation par Query Adaptation
+> **Conclusion :** L'augmentation forte agit comme un **alignement intra-domaine implicite** : elle force le réseau à transférer la confiance acquise sur les grands objets nets vers les objets dégradés du même domaine.
 
-DETR est un détecteur **sans ancres** (_anchor-free_), basé sur un jeu de $N$ **Object Queries** apprises dans le Decoder Transformer.
 
-- **Adaptation pour DETR :** L'Anchor Adaptation n'a pas lieu d'être sous sa forme RPN. En revanche, on met en place une **Query Adaptation** :
-    
-    - Les _Object Queries_ capturent des prioris de position et d'échelle.
-    - On adapte les requêtes spatiales (_Positional Queries_) en injectant des prototypes de requêtes mis à jour par le domaine cible (méthode type **DA-DETR** ou **EW-DETR**).
+### Flux de Données & Entraînement EMA
+- **Student ($\theta_S$) :** Entraîné par rétropropagation du gradient sur les images sources annotées ($x_s$) et les images cibles fortement augmentées ($x_{t,s}$).
+- **Teacher ($\theta_T$) :** Génère les pseudo-labels probabilitaires à partir des images cibles faiblement augmentées ($x_{t,w}$). Ses poids sont mis à jour via une moyenne mobile exponentielle (_Exponential Moving Average_) :$$\theta_T \leftarrow \alpha \theta_T + (1 - \alpha) \theta_S$$
+## 5. Fonction d'Objectif Globale & Synthèse des Pertes ($\mathcal{L}_{total}$)
 
-### 2. Tête de Bounding Box Probabiliste dans DETR
+La perte globale combine la supervision sur la source et les adaptations probabilistes sur la cible :
 
-Dans DETR standard, le Feed-Forward Network (FFN) de régression prédit $[x_{center}, y_{center}, w, h] \in [0, 1]^4$.
-
-**Modification :** Le FFN de régression doit prédire 8 sorties :
-
-$$\left[ \mu_x, \mu_y, \mu_w, \mu_h, \log(\sigma_x^2), \log(\sigma_y^2), \log(\sigma_w^2), \log(\sigma_h^2) \right]$$
-
-### 3. Matching Bipartite Probabiliste (Algorithme Hongrois)
-
-DETR utilise l'algorithme hongrois pour associer les $N$ prédictions du réseau aux Ground Truths / Pseudo-labels.
-
-Pour le domaine cible non annoté :
-
-1. Le **Teacher** produit $M$ pseudo-boîtes probabilistes sur $x^{t,w}$.
-    
-2. Le **Student** produit $N$ prédictions probabilistes sur $x^{t,s}$.
-    
-3. La matrice de coût pour le matching hongrois entre le pseudo-label $j$ du Teacher et la query $i$ du Student est construite en incluant l'incertitude :
-    
-
-$$\mathcal{C}_{i,j} = \lambda_{cls} \mathcal{C}_{cls}\left(p_i^S, p_j^T\right) + \lambda_{L1} \left\Vert{} \mu_i^S - \mu_j^T \right\Vert{}_1 + \lambda_{giou} \mathcal{C}_{giou}\left(\mu_i^S, \mu_j^T\right) + \lambda_{unc} \sum_k \sigma_{i,k}^2$$
-
-### 4. Application des Pertes Cibles dans DETR
-
-```
-Queries filtrées par le Matching Hongrois
-                 |
-                 +--> Classification -> Appliquer Entropy Focal Loss (EFL) sur p_i^S avec \hat{H}(p_j^T)
-                 |
-                 +--> Bounding Box   -> Appliquer la Perte NLL Gaussienne / GIoU pondérée par \sigma_S^2
-```
-
-## 7. Tableau Récapitulatif : RPN / Faster R-CNN (Papier PT) vs DETR (Adaptation Proposée)
-
-|**Composant**|**PT Original (Faster R-CNN)**|**PT Adapté à DETR**|
-|---|---|---|
-|**Backbone & Features**|CNN (ResNet + FPN)|CNN/Swin + Transformer Encoder|
-|**Prioris Géométriques**|Ancres fixes adaptées par **Anchor Adaptation**|**Object Queries** adaptées par Query Alignment|
-|**Tête de Régression**|Offset par rapport aux ancres $+\ \sigma^2$|Coordonnées sigmoid $[0,1]$ $+\ \sigma^2$ (via MLP)|
-|**Assignation des labels**|IoU Threshold (RPN)|**Bipartite Hungarian Matching** probabiliste|
-|**Loss Classification**|EFL sur régions de propositions|EFL sur les queries appariées (+ classe `no-object`)|
-|**Loss Bounding Box**|NLL Gaussienne sur offsets|NLL Gaussienne + GIoU pondérée par variance|
+$$\mathcal{L}_{total} = \mathcal{L}_{src}(x_s, y_s) + \lambda_{cls} \mathcal{L}_{T-cls}^{EFL}(x_{t,w}, x_{t,s}) + \lambda_{box} \mathcal{L}_{T-box}^{EFL}(x_{t,w}, x_{t,s})$$![[learning Domain Adaptive object Detection with Probabilist teacher-1784300972881.webp]]

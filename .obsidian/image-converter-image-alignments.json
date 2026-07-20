@@ -173,6 +173,24 @@
       "width": "",
       "height": "",
       "wrap": false
+    },
+    "4e73bf975ed4fe58b4963d5bbc2728a1": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
+    },
+    "f49147adbdf59077eca9c5371bfa7a73": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
+    },
+    "718e0ee9d55c41065b31bf8b4988d4a8": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
     }
   },
   "DETR/Anchor DETR.md": {
@@ -357,6 +375,24 @@
       "wrap": false
     },
     "a34856e033decf37f1e02a52c616f236": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
+    },
+    "03187bad1d3663427b806ae56c1c5699": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
+    },
+    "61003d67c66a8fe4eac2f5c19bbdda88": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
+    },
+    "3421d38377ba6167bf895260327a46b3": {
       "position": "center",
       "width": "",
       "height": "",
@@ -2195,6 +2231,36 @@
       "width": "",
       "height": "",
       "wrap": false
+    },
+    "0f0aa591e81afcae3ae484a9259026f5": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
+    },
+    "e46a3bcb42b710914b700350e8fe4b58": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
+    },
+    "a866f6f5209fc87f53ac777028aa0e97": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
+    },
+    "f1ad2f4e47ea3ca4f51574f5d46cf7ef": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
+    },
+    "e463eecadd672c3ae3bbeb59f1f442d3": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
     }
   },
   "DETR/sous note/Focal loss.md": {
@@ -2775,6 +2841,36 @@
       "width": "",
       "height": "",
       "wrap": false
+    },
+    "30c29e2270881cdda01b43038f82953a": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
+    },
+    "850d0c755cb4ae491efe21c28a103984": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
+    },
+    "953c44f101621ae6a99a9db4faf87897": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
+    },
+    "371a449038054ac3c6aa9ea3091d817f": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
+    },
+    "ba9f85af2dc2d41cc126e00e2fa9c47b": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
     }
   },
   "domain adaptation/learning Domain Adaptive object Detection with Probabilist teacher.md": {
@@ -2848,6 +2944,94 @@
       "position": "center",
       "width": "700px",
       "height": "289px",
+      "wrap": false
+    },
+    "4f39002189c0961ddc112e22b262dec8": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
+    },
+    "15d16fcf0750f3948b94d5236faa673e": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
+    },
+    "3194c4dbe6f8cd28286323634e20099a": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
+    },
+    "49f4398c60d606630bafbc1e486f9113": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
+    }
+  },
+  "DETR/pieces_jointes/Deformable DETR-1779277411685.webp": {
+    "4323b4543a16bb7e61608527db1c003b": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
+    },
+    "5c71de39dcfa3bd7219c57dde121d6ff": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
+    },
+    "646db7a97f11d7225eaa04f293fd5419": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
+    },
+    "2c3ed9cc1830e0d44957d87676a135c5": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
+    },
+    "9da20b0994b3a461238fc1de80985484": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
+    },
+    "bd0e84900a0727e28128920084835a8c": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
+    }
+  },
+  "domain adaptation/pieces_jointes/learning Domain Adaptive object Detection with Probabilist teacher-1784469354686.webp": {
+    "a98c942ffb9ae098ea031e3656fca750": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
+    },
+    "f52aa05dfec824397fd1bf85ccc6ac5f": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
+    },
+    "3778771b1ad6a32d7c321998505ccb76": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
+    },
+    "9d4d8ffece0c766e70784726f1df1841": {
+      "position": "center",
+      "width": "",
+      "height": "",
       "wrap": false
     }
   }

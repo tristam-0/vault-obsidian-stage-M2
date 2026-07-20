@@ -123,5 +123,5 @@ Pour combler cet _intra-domain gap_ sans ajouter de sous-réseau complexe, PT ex
 ## 5. Fonction d'Objectif Globale & Synthèse des Pertes ($\mathcal{L}_{total}$)
 
 La perte globale combine la supervision sur la source et les adaptations probabilistes sur la cible :
-
-$$\mathcal{L}_{total} = \mathcal{L}_{src}(x_s, y_s) + \lambda_{cls} \mathcal{L}_{T-cls}^{EFL}(x_{t,w}, x_{t,s}) + \lambda_{box} \mathcal{L}_{T-box}^{EFL}(x_{t,w}, x_{t,s})$$![[learning Domain Adaptive object Detection with Probabilist teacher-1784300972881.webp]]
+![[learning Domain Adaptive object Detection with Probabilist teacher-1784469354686.webp|697]]
+![[learning Domain Adaptive object Detection with Probabilist teacher-1784469394425.webp]]![[learning Domain Adaptive object Detection with Probabilist teacher-1784469440605.webp|700x289]]

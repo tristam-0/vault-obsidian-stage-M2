@@ -3,5 +3,11 @@
   "attachmentFolderPath": "./pieces_jointes",
   "newFileLocation": "folder",
   "newFileFolderPath": "a_trier",
-  "showLineNumber": false
+  "showLineNumber": false,
+  "pdfExportSettings": {
+    "pageSize": "Letter",
+    "landscape": false,
+    "margin": "0",
+    "downscalePercent": 100
+  }
 }

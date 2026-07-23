@@ -3082,5 +3082,25 @@
       "height": "",
       "wrap": false
     }
+  },
+  "domain adaptation/evalution_a_fair/DA-DETR.md": {
+    "69a95c4f55a1163734e7be6729762007": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
+    },
+    "705b5499a12401c16701a5d4cd900453": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
+    },
+    "abbaa783fe46a30aa8aa6569142f3bfc": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
+    }
   }
 }

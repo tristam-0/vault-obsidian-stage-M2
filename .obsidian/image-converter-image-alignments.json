@@ -3101,6 +3101,12 @@
       "width": "",
       "height": "",
       "wrap": false
+    },
+    "e0e6edca1a3f8e8ef2b5b1b238dd538a": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
     }
   },
   "domain adaptation/evalution_a_fair/DATR.md": {
@@ -3111,6 +3117,68 @@
       "wrap": false
     },
     "c688f7a43239265faaca05668e4755ca": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
+    },
+    "1c99ae1c544b998656ac7997ae715029": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
+    },
+    "f53eec2bb78f9f132d46746797321934": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
+    }
+  },
+  "domain adaptation/evalution_a_fair/DA-RTDETR.md": {
+    "9eedefa69e3bd5cf39725706ea12739f": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
+    },
+    "83255a53c5c9dbd4cd508ef21d383564": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
+    },
+    "5e48255e2d373117a6e516f6fa2b2587": {
+      "position": "center",
+      "width": "700px",
+      "height": "485px",
+      "wrap": false
+    },
+    "c8a9e84659f04f500c54db57457e5fab": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
+    }
+  },
+  "domain adaptation/evalution_a_fair/pieces_jointes/DATR-1784813527532.webp": {
+    "10bde8a0a76d132854d2ff578651635c": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
+    }
+  },
+  "domain adaptation/evalution_a_fair/pieces_jointes/DA-RTDETR-1784879146403.webp": {
+    "b356ccb4d72b166133eb9f5cfdcd1244": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
+    }
+  },
+  "domain adaptation/evalution_a_fair/pieces_jointes/DA-RTDETR-1784880083687.webp": {
+    "a97eda8de9f44557397e81b8e1ca667b": {
       "position": "center",
       "width": "",
       "height": "",

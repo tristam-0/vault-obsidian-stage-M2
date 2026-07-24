@@ -3102,5 +3102,19 @@
       "height": "",
       "wrap": false
     }
+  },
+  "domain adaptation/evalution_a_fair/DATR.md": {
+    "70dc60a38c89e10f41067e5d2da1557a": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
+    },
+    "c688f7a43239265faaca05668e4755ca": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
+    }
   }
 }

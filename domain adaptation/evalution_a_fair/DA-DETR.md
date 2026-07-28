@@ -69,11 +69,38 @@ $$\hat{f}_l = \text{Shuffle}\left(\text{Concat}\left([\tilde{f}_{l,1}, \tilde{f}
 $$\begin{matrix} (f_l, p_l) & \xrightarrow{\text{Split}} & (f_{l,k}, p_{l,k})_{k=1}^K \\ & \xrightarrow{\text{Modulation}} & \tilde{f}_{l,k} = f_{l,k} \odot p_{l,k}^{s/c} \\ & \xrightarrow{\text{Shuffle \& Merge}} & \hat{f}_l \quad \text{(Puis transmis au module SAF)} \end{matrix}$$
 La sortie $\hat{f}_l$ contient désormais à la fois les détails fins de localisation du backbone CNN et la sémantique globale guidée par l'encodeur Transformer, prête à être agrégée à travers les échelles par la **Scale Aggregation Fusion (SAF)**.
 
-
-
+### SAF
 1. **Scale Aggregation Fusion (SAF) :** Il combine les caractéristiques fusionnées à travers plusieurs échelles d'image (_multi-scale_), garantissant que les détails fins de localisation et le contexte global soient préservés à toutes les résolutions.
 ![[DA-DETR-1784794365082.webp]]
-2. **Discriminateur unique :** La représentation riche produite par le CTBlender est envoyée à un unique discriminateur de domaine, qui utilise un apprentissage contradictoire (_adversarial learning_) pour rendre les caractéristiques invariantes au changement de domaine.
+### 1. Compression des caractéristiques (Global Average Pooling)
+
+Pour chaque niveau d'échelle $l$, le SAF récupère la carte de caractéristiques $\hat{f}_l \in \mathbb{R}^{C \times H_l \times W_l}$ qui vient de sortir du SMF.
+Pour analyser l'information de cette échelle sans être encombré par la dimension spatiale, on applique un **Global Average Pooling (GAP)**. Cela "écrase" la hauteur et la largeur pour ne garder qu'un vecteur $u_l$ qui résume l'activation moyenne de chaque canal :
+$$u_l = \text{GAP}(\hat{f}_l) \in \mathbb{R}^{C \times 1 \times 1}$$
+### 2. Fusion des descripteurs d'échelle
+Pour que le modèle puisse juger de l'importance d'une échelle par rapport aux autres, il doit d'abord les regarder toutes en même temps.
+Les vecteurs $u_l$ de toutes les échelles ($l=1$ à $L$) sont donc combinés via une simple **addition élément par élément** pour former un descripteur global fusionné $u_m$ (_merged vector_) :
+$$u_m = \sum_{l=1}^L u_l \quad \in \mathbb{R}^{C \times 1 \times 1}$$
+### 3. Calcul des poids d'attention d'échelle ($\alpha_l$)
+C'est ici que l'attention multi-échelle se crée. Le descripteur global $u_m$ est envoyé dans une couche linéaire (_Fully Connected layer_).
+Cette couche a pour rôle d'analyser $u_m$ et de le "séparer" en $L$ nouveaux vecteurs de poids, notés $\alpha_l \in \mathbb{R}^{C \times 1 \times 1}$ (un pour chaque échelle).
+Ces vecteurs $\alpha_l$ agissent comme des **masques d'attention par canal** : ils indiquent au modèle, pour chaque canal donné, à quel point l'échelle $l$ est importante.
+### 4. Pondération et Agrégation Finale (Génération de $V_a$)
+
+Une fois les poids $\alpha_l$ obtenus, il faut les appliquer aux cartes de caractéristiques et les combiner. Comme les échelles n'ont pas la même résolution spatiale ($H_l \times W_l$ varie selon $l$), cette étape se déroule en 3 temps :
+
+- **A. Pondération spatiale (Broadcasting) :**
+    Pour chaque échelle $l$, la carte $\hat{f}_l$ issue du SMF est multipliée par son vecteur d'attention d'échelle $\alpha_l$ via un produit élément par élément avec propagation spatiale :$$v_l = \hat{f}_l \odot \alpha_l \quad \in \mathbb{R}^{C \times H_l \times W_l}$$
+- **B. Aplatissement spatial (Flattening) :**
+    Pour contourner la différence de résolutions spatiales entre les échelles, la grille 2D de chaque carte pondérée $v_l$ est "déroulée" en une séquence 1D de jetons (_tokens_) :
+$$v_l^{\text{flat}} \in \mathbb{R}^{C \times N_l} \quad \text{où } N_l = H_l \times W_l$$
+- **C. Concaténation de la séquence globale ($V_a$) :**
+    toutes les cartes aplaties (qui partagent la même profondeur de $C = 256$ canaux) sont mises bout à bout le long de la dimension spatiale pour former la carte fusionnée globale $V_a$ :
+    
+    $$V_a = \text{Concat}\left(v_1^{\text{flat}}, v_2^{\text{flat}}, \dots, v_L^{\text{flat}}\right) \in \mathbb{R}^{C \times N}$$
+
+
+1. **Discriminateur unique :** La représentation riche produite par le CTBlender est envoyée à un unique discriminateur de domaine, qui utilise un apprentissage contradictoire (_adversarial learning_) pour rendre les caractéristiques invariantes au changement de domaine.
 ![[DA-DETR-1784794194258.webp]]
 
 

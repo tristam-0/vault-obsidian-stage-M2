@@ -1,4 +1,4 @@
-https://openaccess.thecvf.com/content/CVPR2023/papers/Zhang_DA-DETR_Domain_Adaptive_Detection_Transformer_With_Information_Fusion_CVPR_2023_paper.**pdf
+https://arxiv.org/pdf/2103.17084
 https://openaccess.thecvf.com/content/CVPR2023/supplemental/Zhang_DA-DETR_Domain_Adaptive_CVPR_2023_supplemental.pdf
 rolle diférance CNN / Transformer
 

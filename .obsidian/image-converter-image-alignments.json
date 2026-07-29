@@ -2939,6 +2939,18 @@
       "width": "",
       "height": "",
       "wrap": false
+    },
+    "28afa7f012c45af24a736f24731340e8": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
+    },
+    "361f8a36219add703b624c4632756743": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
     }
   },
   "domain adaptation/evalution_a_fair/DA-RTDETR.md": {

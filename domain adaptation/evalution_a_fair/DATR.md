@@ -3,7 +3,7 @@ DATR: Unsupervised Domain Adaptive Detection
 Transformer with Dataset-Level Adaptation and
 
 Prototypical Alignment
-
+https://arxiv.org/pdf/2405.11765
 #### A. Alignement par prototypes par classe (_Class-wise Prototypes Alignment - CPA_)
 
 Plutôt que d'aligner aveuglement toutes les caractéristiques, le module CPA prend en compte la catégorie des objets (_class-aware_). Il crée des **prototypes** (représentations moyennes) pour chaque classe d'objets et s'assure qu'une classe du domaine source (ex: "voiture") soit alignée spécifiquement avec la même classe dans le domaine cible.

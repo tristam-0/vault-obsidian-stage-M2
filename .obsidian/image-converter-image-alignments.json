@@ -2105,6 +2105,12 @@
       "width": "",
       "height": "",
       "wrap": false
+    },
+    "c03e4768be7019858f323129d97199ed": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
     }
   },
   "DETR/sous note/Focal loss.md": {
@@ -2623,68 +2629,6 @@
       "wrap": false
     }
   },
-  "domain adaptation/Differential Alignment for Domain Adaptive Object Detection.md": {
-    "d51f09ef0e146e6a56a87e607243df20": {
-      "position": "center",
-      "width": "",
-      "height": "",
-      "wrap": false
-    },
-    "87a8f8d7d4a0a48739d95b87b1b68b4d": {
-      "position": "center",
-      "width": "",
-      "height": "",
-      "wrap": false
-    },
-    "98bd0d034efcae0b408c98b55abbb30a": {
-      "position": "center",
-      "width": "",
-      "height": "",
-      "wrap": false
-    },
-    "1b498549681ebef191acec55ba6cea21": {
-      "position": "center",
-      "width": "700px",
-      "height": "297px",
-      "wrap": false
-    },
-    "7203739dc10304b644bb438a62661e7a": {
-      "position": "center",
-      "width": "",
-      "height": "",
-      "wrap": false
-    },
-    "30c29e2270881cdda01b43038f82953a": {
-      "position": "center",
-      "width": "",
-      "height": "",
-      "wrap": false
-    },
-    "850d0c755cb4ae491efe21c28a103984": {
-      "position": "center",
-      "width": "",
-      "height": "",
-      "wrap": false
-    },
-    "953c44f101621ae6a99a9db4faf87897": {
-      "position": "center",
-      "width": "",
-      "height": "",
-      "wrap": false
-    },
-    "371a449038054ac3c6aa9ea3091d817f": {
-      "position": "center",
-      "width": "",
-      "height": "",
-      "wrap": false
-    },
-    "ba9f85af2dc2d41cc126e00e2fa9c47b": {
-      "position": "center",
-      "width": "",
-      "height": "",
-      "wrap": false
-    }
-  },
   "domain adaptation/learning Domain Adaptive object Detection with Probabilist teacher.md": {
     "b4f876a8866c3ea0ebf5d1261a57c2d6": {
       "position": "center",
@@ -2783,6 +2727,12 @@
       "wrap": false
     },
     "3194c4dbe6f8cd28286323634e20099a": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
+    },
+    "00f30e34ccb92b9eefaa4719cdfbfdda": {
       "position": "center",
       "width": "",
       "height": "",
@@ -2963,6 +2913,12 @@
       "width": "",
       "height": "",
       "wrap": false
+    },
+    "8846b77313e31f852eb00d9ac98a3651": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
     }
   },
   "domain adaptation/evalution_a_fair/DA-RTDETR.md": {
@@ -3059,6 +3015,14 @@
   },
   "DETR/pieces_jointes/mico diferanceimg.webp": {
     "6dce780177598bb42fcd38e9f6fdc673": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
+    }
+  },
+  "domain adaptation/Differential Alignment for Domain Adaptive Object Detection.md": {
+    "d51f09ef0e146e6a56a87e607243df20": {
       "position": "center",
       "width": "",
       "height": "",

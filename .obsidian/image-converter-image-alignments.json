@@ -2111,6 +2111,12 @@
       "width": "",
       "height": "",
       "wrap": false
+    },
+    "a5f2d3860ff6d9b6e99f39c24eeec674": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
     }
   },
   "DETR/sous note/Focal loss.md": {
@@ -2737,6 +2743,18 @@
       "width": "",
       "height": "",
       "wrap": false
+    },
+    "d974dbe34991d3066337986c9d2fd2a5": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
+    },
+    "3c38300f335d60c33bc3483f0d1fd88e": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
     }
   },
   "DETR/pieces_jointes/Deformable DETR-1779277411685.webp": {
@@ -2857,6 +2875,12 @@
       "width": "",
       "height": "",
       "wrap": false
+    },
+    "d1b591a72dcac7dd2cc6f5b5a7545266": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
     }
   },
   "domain adaptation/evalution_a_fair/DATR.md": {
@@ -2921,6 +2945,12 @@
       "wrap": false
     },
     "8846b77313e31f852eb00d9ac98a3651": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
+    },
+    "417912760e9c3f937e5ff07dd04e69f4": {
       "position": "center",
       "width": "",
       "height": "",
@@ -3029,6 +3059,18 @@
   },
   "domain adaptation/Differential Alignment for Domain Adaptive Object Detection.md": {
     "d51f09ef0e146e6a56a87e607243df20": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
+    },
+    "e7bd45a543efd28f72d36ee177c1489a": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
+    },
+    "647e6bb744fc028aeb922dc35b74df95": {
       "position": "center",
       "width": "",
       "height": "",

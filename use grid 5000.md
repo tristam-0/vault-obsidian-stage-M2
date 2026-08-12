@@ -1,4 +1,4 @@
-# Configuration & Bonnes Pratiques - Grid'5000 (Projet DETR)
+The architecture is the one of a classical decoder encoder. # Configuration & Bonnes Pratiques - Grid'5000 (Projet DETR)
 
 ## 1. Connexion et Navigation
 

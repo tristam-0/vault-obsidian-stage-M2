@@ -1,4 +1,5 @@
 s## 1. Vue d'Ensemble & Flux de Données (Architecture Teacher-Student)
+![[learning Domain Adaptive object Detection with Probabilist teacher-1787735388075.webp]]
 Le framework **Probabilistic Teacher (PT)** résout le problème du transfert de domaine sans supervision (_Unsupervised Domain Adaptation - UDA_) pour la détection d'objets.
 
 Les approches de _Self-Training_ classiques filtrent les pseudo-boîtes cibles à l'aide d'un **seuil de confiance rigide** (ex. $p > 0.8$). Cela pose deux problèmes :

@@ -106,3 +106,5 @@ Maintenant que les modules PDFA et UFOA sont définis, voici comment fonctionne 
     3. Calculer la divergence d'instance uniquement entre les paires associées :
     $$P_{div}(i) = \text{Square}\left(P_T^i - P_S^{\text{match}(i)}\right)$$
     4. Extraire le poids d'incertitude $\tilde{w}_{ins}(i)$ à partir de cette divergence pour pondérer la loss adversariale appliquée sur les embeddings des queries réassociées.
+
+$$\mathcal{L}_{adv}^{} = - d \cdot \log(D(F_{img}^{})) - (1 - d) \cdot \log(1 - D(F_{img}^{}))$$

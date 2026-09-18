@@ -1,5 +1,5 @@
 # DA-RTDETR: domain-adaptive RT-DETR with feature fusion and category-level constraints
-
+https://link.springer.com/content/pdf/10.1007/s40747-025-02134-x.pdf
 #### A. Discriminateur amélioré par fusion (_FFED — Feature Fusion Enhanced Discriminator_)
 
 - **Objectif :** Aligner les caractéristiques visuelles extraites par le _backbone_ et l'encodeur.

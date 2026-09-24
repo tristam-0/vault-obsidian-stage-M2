@@ -259,6 +259,18 @@
       "width": "",
       "height": "",
       "wrap": false
+    },
+    "7df49b028e24cd139384bacd232c57a0": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
+    },
+    "1a78b6aed7abac87d4209cd22ddd3272": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
     }
   },
   "DETR/DETR.md": {
@@ -2487,6 +2499,12 @@
       "width": "",
       "height": "",
       "wrap": false
+    },
+    "e9f0389fde7dec9594e4995981e37dc2": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
     }
   },
   "idée optimisation.md": {
@@ -3315,6 +3333,12 @@
       "width": "",
       "height": "",
       "wrap": false
+    },
+    "0bd18c4f57c63128cbad7a7d16b0e27c": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
     }
   },
   "NWD.md": {
@@ -3337,6 +3361,20 @@
       "wrap": false
     },
     "ce32f0badf0b66ab5583c9cdbae0d3ed": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
+    }
+  },
+  "descriminateur/Gradient Reversal Layer.md": {
+    "2f4e4d4e4ee423cba985ea2c61748f38": {
+      "position": "center",
+      "width": "",
+      "height": "",
+      "wrap": false
+    },
+    "79420ec7eafe3a20850b88dad31a7411": {
       "position": "center",
       "width": "",
       "height": "",
